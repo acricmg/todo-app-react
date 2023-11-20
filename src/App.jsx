@@ -1,46 +1,21 @@
-import axios from "axios";
-import { useEffect, useState } from "react";
-import config from "../config/config";
+import React from "react";
+import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import NotFound from "./pages/NotFound";
+import Users from "./pages/Users";
+import Register from "./pages/Register";
 import "./App.css";
 
-function App() {
-  // State to hold the fetched data
-  const [userData, setUserData] = useState(null);
-
-  // Effect to fetch data when the component mounts
-  useEffect(() => {
-    // Function to fetch data
-    const fetchData = async () => {
-      try {
-        // Make a GET request to your backend API endpoint
-        const response = await axios.get(`${config.backend.url}/api/users`);
-        
-        // Set the fetched data in state
-        setUserData(response.data);
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      }
-    };
-
-    // Call the fetch data function
-    fetchData();
-  }, []); // Empty dependency array ensures the effect runs only once when the component mounts
-
-  // Render the component with the fetched data
+const App = () => {
   return (
-    <div>
-      <h2 className="text-3xl font-bold underline">User Data</h2>
-      {userData ? (
-        <ul>
-          {userData.map(user => (
-            <li key={user._id}>{user.name}</li>
-          ))}
-        </ul>
-      ) : (
-        <p>Loading...</p>
-      )}
-    </div>
-  );
-}
+    <Router>
+      <Routes>
+        <Route path="/" element={<Users />} />
+        <Route path="/register" element={<Register />} />
 
-export default App
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+    </Router>
+  );
+};
+
+export default App;
