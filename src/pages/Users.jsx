@@ -2,6 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import config from "../../config/config";
+import Layout from "../components/Layout";
 
 const Users = () => {
   // State to hold the fetched data
@@ -34,8 +35,8 @@ const Users = () => {
   };
   // Render the component with the fetched data
   return (
-    <div>
-      <h2 className="text-3xl font-bold underline">User Data</h2>
+    <Layout>
+      <h2 className="text-3xl font-bold underline h-100">User Data</h2>
       {userData ? (
         <ul>
           {userData.map((user) => (
@@ -46,7 +47,32 @@ const Users = () => {
         <p>Loading...</p>
       )}
       <button onClick={handleButtonClick}>Create user</button>
-    </div>
+
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+    </Layout>
   );
 };
 
