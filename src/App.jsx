@@ -7,6 +7,7 @@ import Register from "./pages/Register";
 import Users from "./pages/Users";
 
 import "./App.css";
+import Tasks from "./pages/Tasks";
 
 const App = () => {
   return (
@@ -15,6 +16,7 @@ const App = () => {
         <Route path="/" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/users" element={<Users />} />
+        <Route path="/tasks" element={<Tasks />} />
 
         <Route path="*" element={<NotFound />} />
       </Routes>

@@ -23,8 +23,8 @@ const Navbar = ({ state }) => {
   };
 
   return (
-    <nav className={`l-0 mr-3 lg:w-1/5 mb-3 ${state ? "block" : "hidden"}`}>
-      <div className="sticky top-5 p-4 container mx-auto flex justify-between items-center shadow-sm rounded border bg-white text-black">
+    <nav className={`l-0 lg:w-1/5 mb-3 ${state ? "block" : "hidden"}`}>
+      <div className="sticky top-5 p-4 container mx-auto flex justify-between items-center shadow-lg lg:shadow-sm rounded-lg border bg-white text-black z-10">
         <div>DaHub 😉</div>
         <div className="lg:hidden">
           <button onClick={toggleNavbar} className="focus:outline-none">
@@ -55,7 +55,7 @@ const Navbar = ({ state }) => {
         </div>
       </div>
       <div className="sticky top-[130px] mt-10">
-        <div className="container rounded border bg-white p-5">
+        <div className="container rounded-lg border bg-white p-5 mx-auto">
           <div className="text-black text-left">
             <p className="text-xl mb-2">
               Hello <strong> User</strong>!
@@ -75,7 +75,7 @@ const Navbar = ({ state }) => {
             </div>
           </div>
         </div>
-        <div className="container rounded border bg-white p-5 mt-5">
+        <div className="container rounded-lg border bg-white p-5 mt-5 mx-auto">
           <div className="text-black text-left">
             <p className="text-xl mb-2">
               Hello <strong> another</strong>!
