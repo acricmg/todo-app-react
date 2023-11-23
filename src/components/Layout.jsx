@@ -13,7 +13,7 @@ const Layout = ({ children }) => {
       <Navbar state={isOpen} />
       <div className="hidden lg:block sticky top-1/3 bottom-1/2 h-12 mr-5">
         <button
-          className="absolute rounded-full left-[-30px]"
+          className="absolute rounded-full left-[-10px] p-3 bg-white border"
           onClick={toggleNavbar}
         >
           <FontAwesomeIcon icon={isOpen ? faCaretLeft : faCaretRight} />
