@@ -47,31 +47,6 @@ const Users = () => {
         <p>Loading...</p>
       )}
       <button onClick={handleButtonClick}>Create user</button>
-
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
     </Layout>
   );
 };
