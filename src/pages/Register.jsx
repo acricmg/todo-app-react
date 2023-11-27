@@ -1,6 +1,8 @@
-import React, { useState } from "react";
 import axios from "axios";
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import config from "../../config/config";
+import LoginLayout from "../components/LoginLayout";
 
 const Register = () => {
   const [username, setUsername] = useState("");
@@ -37,62 +39,61 @@ const Register = () => {
   };
 
   return (
-    <form className="flex flex-col w-full" onSubmit={handleSubmit}>
-      <div className="mb-4">
-        <label className="block mb-2 text-sm font-medium text-white-900">
-          Username
-        </label>
-        <input
-          type="text"
-          placeholder="Enter your username"
-          value={username}
-          onChange={(event) => setUsername(event.target.value)}
-          required
-        />
+    <LoginLayout>
+      <div className="text-center sm:text-left">
+        <h3 className="font-bold mb-2.5 text-2xl">Create Account</h3>
+        <p>
+          Already have an account?
+          <span className="link"> Log in</span>
+        </p>
       </div>
-
-      <div className="mb-4">
-        <label className="block mb-2 text-sm font-medium text-white-900">
-          Name
-        </label>
+      <form className="my-6 flex flex-col" onSubmit={handleSubmit}>
         <input
+          className="mb-3 field-rounded field-border"
           type="text"
-          placeholder="Enter your full name"
+          name="name"
+          id="name"
+          placeholder="Full Name / Nickname"
           value={name}
-          onChange={(event) => setName(event.target.value)}
+          onChange={(e) => setName(e.target.value)}
           required
         />
-      </div>
-
-      <div className="mb-4">
-        <label className="block mb-2 text-sm font-medium text-white-900">
-          Email
-        </label>
         <input
+          className="mb-3 field-rounded field-border"
+          type="text"
+          name="username"
+          id="username"
+          placeholder="Username"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+          required
+        />
+        <input
+          className="mb-3 field-rounded field-border"
           type="email"
-          placeholder="Enter your email address"
+          name="email"
+          id="email"
+          placeholder="Email Address"
           value={email}
-          onChange={(event) => setEmail(event.target.value)}
+          onChange={(e) => setEmail(e.target.value)}
           required
         />
-      </div>
+        <button className="field-rounded btn-primary" type="submit">
+          Continue
+        </button>
+      </form>
+      <Link className="text-sm link" to="/"> 
+      Go Back
+      </Link>
+    </LoginLayout>
 
-      <div className="mb-4">
-        <label className="block mb-2 text-sm font-medium text-white-900">
-          Password
-        </label>
-        <input
-          type="password"
-          placeholder="Enter your password"
-          value={password}
-          onChange={(event) => setPassword(event.target.value)}
-          required
-        />
-      </div>
-      {status}
-
-      <button type="submit">Register</button>
-    </form>
+    // <input
+    //     className="mb-3 field-rounded field-border"
+    //     type="password"
+    //     name="password"
+    //     id="passwd"
+    //     placeholder="Password"
+    //   />
   );
 };
 
