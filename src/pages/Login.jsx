@@ -8,7 +8,7 @@ const Login = () => {
         <h3 className="font-bold mb-2.5 text-2xl">Log in</h3>
         <p>
           Don't have an account?
-          <span className="text-secondary hover:text-secondary-200 hover:font-medium transition ease-out duration-300">
+          <span className="link">
             {" "}
             Create one
           </span>
@@ -30,13 +30,13 @@ const Login = () => {
           placeholder="Password"
         />
         <button
-          className="field-rounded bg-primary text-white font-medium hover:bg-primary-200 hover:shadow-md transition ease-out duration-500"
+          className="field-rounded btn-primary"
           type="submit"
         >
           Log in
         </button>
       </form>
-      <span className="text-center text-secondary hover:text-secondary-200 hover:font-medium transition ease-out duration-300">
+      <span className="text-center link">
         Forgot Password?
       </span>
     </LoginLayout>

@@ -28,3 +28,11 @@
 .field-border {
   @apply border-2 border-gray-300 border-opacity-80 bg-white focus:outline-none;
 }
+
+.link {
+  @apply text-secondary transition ease-out duration-300 hover:text-secondary-200 hover:font-medium; 
+}
+
+.btn-primary {
+  @apply bg-primary text-white font-medium transition ease-out duration-500 hover:bg-primary-200 hover:shadow-md;
+}
