@@ -1,6 +1,10 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+
+import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
 import config from "../../config/config";
 import LoginLayout from "../components/LoginLayout";
 
@@ -82,8 +86,9 @@ const Register = () => {
           Continue
         </button>
       </form>
-      <Link className="text-sm link" to="/"> 
-      Go Back
+      <Link className="text-sm text-center link" to="/">
+        <FontAwesomeIcon className="mr-2" icon={faChevronLeft} />
+        <span>Go Back</span>
       </Link>
     </LoginLayout>
 
