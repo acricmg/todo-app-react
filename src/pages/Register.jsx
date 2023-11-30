@@ -10,21 +10,27 @@ import LoginLayout from "../components/LoginLayout";
 
 const Register = () => {
   const [input, setInput] = useState({});
+  const [step, setStep] = useState(1);
+
+  const handleContinue = () => {
+    setStep((prevStep) => prevStep + 1);
+  };
+
+  const handleBack = () => {
+    setStep((prevStep) => prevStep - 1);
+  };
 
   const handleChange = (e) => {
     const name = e.target.name;
     const value = e.target.value;
 
     setInput((inputs) => {
-      console.log(inputs);
       return { ...inputs, [name]: value };
     });
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    
-    console.log(inputs);
 
     // try {
     //   const formData = {
@@ -56,86 +62,113 @@ const Register = () => {
         <h3 className="font-bold mb-2.5 text-2xl">Create Account</h3>
         <p>
           Already have an account?
-          <span className="link"> Log in</span>
+          <Link className="link" to="/"> Log in</Link>
         </p>
       </div>
-      <form className="my-6 flex flex-col" onSubmit={handleSubmit}>
-        <label className="field-label" htmlFor="name">
-          Full Name / Nickname
-        </label>
-        <input
-          className="field"
-          type="text"
-          name="name"
-          id="name"
-          placeholder="John Doe / John"
-          value={input.name || ""}
-          onChange={(e) => handleChange(e)}
-          required
-        />
+      <form className="mt-6 flex flex-col" onSubmit={handleSubmit}>
+        {step === 1 ? (
+          <>
+            <label className="field-label" htmlFor="name">
+              Full Name / Nickname
+            </label>
+            <input
+              className="field"
+              type="text"
+              name="name"
+              id="name"
+              placeholder="John Doe / John"
+              value={input.name || ""}
+              onChange={(e) => handleChange(e)}
+              required
+            />
 
-        <label className="field-label" htmlFor="username">
-          Username
-        </label>
-        <input
-          className="field"
-          type="text"
-          name="username"
-          id="username"
-          placeholder="johndoe1998"
-          value={input.username || ""}
-          onChange={(e) => handleChange(e)}
-          required
-        />
+            <label className="field-label" htmlFor="username">
+              Username
+            </label>
+            <input
+              className="field"
+              type="text"
+              name="username"
+              id="username"
+              placeholder="johndoe1998"
+              value={input.username || ""}
+              onChange={(e) => handleChange(e)}
+              required
+            />
 
-        <label className="field-label" htmlFor="email">
-          Email Address
-        </label>
-        <input
-          className="field"
-          type="email"
-          name="email"
-          id="email"
-          placeholder="johndoe@gmail.com"
-          value={input.email || ""}
-          onChange={(e) => handleChange(e)}
-          required
-        />
+            <label className="field-label" htmlFor="email">
+              Email Address
+            </label>
+            <input
+              className="field"
+              type="email"
+              name="email"
+              id="email"
+              placeholder="johndoe@gmail.com"
+              value={input.email || ""}
+              onChange={(e) => handleChange(e)}
+              required
+            />
 
-        {/* <label className="field-label" htmlFor="password">
-          Password
-        </label>
-        <input
-          className="field"
-          type="password"
-          name="password"
-          id="password"
-          placeholder="Password"
-          value={input.passwd1 || ""}
-          onChange={(e) => handleChange(e)}
-        />
+            <button
+              className="mt-3 field-rounded btn-primary"
+              onClick={handleContinue}
+            >
+              Continue
+            </button>
 
-        <label className="field-label" htmlFor="confirm-password">
-          Confirm Password
-        </label>
-        <input
-          className="field"
-          type="password"
-          name="confirm-password"
-          id="confirm-password"
-          placeholder="Confirm Password"
-          value={input.passwd2 || ""}
-          onChange={(e) => handleChange(e)}
-        /> */}
+            <Link className="mt-6 text-sm text-center link" to="/">
+              <span>
+                <FontAwesomeIcon className="mr-2" icon={faChevronLeft} />
+                Go Back
+              </span>
+            </Link>
+          </>
+        ) : (
+          <>
+            <label className="field-label" htmlFor="password">
+              Password
+            </label>
+            <input
+              className="field"
+              type="password"
+              name="password"
+              id="password"
+              placeholder="Password"
+              value={input.passwd1 || ""}
+              onChange={(e) => handleChange(e)}
+            />
 
-        <button className="mt-3 field-rounded btn-primary" type="submit">
-          Continue
-        </button>
+            <label className="field-label" htmlFor="confirm-password">
+              Confirm Password
+            </label>
+            <input
+              className="field"
+              type="password"
+              name="confirm-password"
+              id="confirm-password"
+              placeholder="Confirm Password"
+              value={input.passwd2 || ""}
+              onChange={(e) => handleChange(e)}
+            />
+
+            <button
+              className="mt-3 field-rounded btn-primary"
+              type="submit"
+            >
+              Create Account
+            </button>
+
+            <span
+              className="mt-6 text-sm text-center link"
+              onClick={handleBack}
+            >
+              <FontAwesomeIcon className="mr-2" icon={faChevronLeft} />
+              Go Back
+            </span>
+          </>
+        )}
       </form>
-      <Link className="text-sm text-center link" to="/">
-        <FontAwesomeIcon className="mr-2" icon={faChevronLeft} />
-        <span>Go Back</span>
-      </Link>
     </LoginLayout>
   );
 };

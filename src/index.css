@@ -39,7 +39,7 @@
 }
 
 .link {
-  @apply text-secondary transition ease-out duration-300 hover:text-secondary-200 hover:font-medium; 
+  @apply text-secondary transition ease-out duration-300 hover:text-secondary-200 hover:font-medium cursor-pointer; 
 }
 
 .btn-primary {
