@@ -6,12 +6,15 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheckCircle, faCircle } from "@fortawesome/free-regular-svg-icons";
 import Notification from "./Notification";
 import { faPencil, faTrash } from "@fortawesome/free-solid-svg-icons";
+import EditPrompt from "./EditPrompt";
 
 const TaskList = ({ userId }) => {
   // State to hold the fetched data
   const [taskData, setTaskData] = useState(null);
   const navigate = useNavigate();
   const [notification, setNotification] = useState(null);
+  const [editPrompt, setEditPrompt] = useState(null);
+  const [editTaskSelected, setEditTaskSelected] = useState(null);
   const [notificationColor, setNotificationColor] = useState("");
 
   const showNotification = (message, color) => {
@@ -22,6 +25,23 @@ const TaskList = ({ userId }) => {
   const closeNotification = () => {
     setNotification(null);
     setNotificationColor("");
+  };
+
+  const handleEditPromptVisibility = (closed, alert, success) => {
+    setEditPrompt(closed ? null : true);
+    if (alert) {
+      if (success) {
+        showNotification("Task updated", "#00b300");
+      } else {
+        showNotification("Task not updated", "#b30000");
+      }
+    }
+    fetchData();
+  };
+
+  const showEditPrompt = (task) => {
+    setEditTaskSelected(task);
+    handleEditPromptVisibility(false);
   };
 
   // Effect to fetch data when the component mounts
@@ -43,7 +63,6 @@ const TaskList = ({ userId }) => {
         acc[key].push(obj);
         return acc;
       }, {});
-      console.log(tasks);
       setTaskData(tasks);
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -69,6 +88,12 @@ const TaskList = ({ userId }) => {
 
   return (
     <div>
+      {editPrompt && (
+        <EditPrompt
+          task={editTaskSelected}
+          parentOnClose={handleEditPromptVisibility}
+        />
+      )}
       <div>
         {notification && (
           <Notification
@@ -78,7 +103,7 @@ const TaskList = ({ userId }) => {
           />
         )}
       </div>
-      <div className="bg-white rounded-lg p-4">
+      <div className="bg-white rounded-lg p-4 mr-0">
         <h2 className="text-3xl text-left font-bold h-100 border-b my-2 mb-5">
           Tasks
         </h2>
@@ -103,7 +128,10 @@ const TaskList = ({ userId }) => {
                   />
                   <p className="font-bold ml-3">{task.title}</p>
                   <div className="absolute right-0 flex">
-                    <div className="border hover:bg-gray-700 bg-white text-black hover:text-white items-center px-2 rounded mx-1">
+                    <div
+                      onClick={() => showEditPrompt(task)}
+                      className="border hover:bg-gray-700 bg-white text-black hover:text-white items-center px-2 rounded mx-1"
+                    >
                       <FontAwesomeIcon icon={faPencil} size="xs" />
                     </div>
                     <div className="border hover:bg-gray-700 bg-white text-[#9a0000] hover:text-white items-center px-2 rounded mx-1">
