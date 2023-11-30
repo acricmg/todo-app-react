@@ -9,14 +9,22 @@ import config from "../../config/config";
 import LoginLayout from "../components/LoginLayout";
 
 const Register = () => {
-  const [username, setUsername] = useState("");
-  const [name, setName] = useState("");
-  const [password, setPassword] = useState("");
-  const [email, setEmail] = useState("");
-  const [status, setStatus] = useState("");
+  const [input, setInput] = useState({});
+
+  const handleChange = (e) => {
+    const name = e.target.name;
+    const value = e.target.value;
+
+    setInput((inputs) => {
+      console.log(inputs);
+      return { ...inputs, [name]: value };
+    });
+  };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    
+    console.log(inputs);
 
     // try {
     //   const formData = {
@@ -61,8 +69,8 @@ const Register = () => {
           name="name"
           id="name"
           placeholder="John Doe / John"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
+          value={input.name || ""}
+          onChange={(e) => handleChange(e)}
           required
         />
 
@@ -75,8 +83,8 @@ const Register = () => {
           name="username"
           id="username"
           placeholder="johndoe1998"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
+          value={input.username || ""}
+          onChange={(e) => handleChange(e)}
           required
         />
 
@@ -89,8 +97,8 @@ const Register = () => {
           name="email"
           id="email"
           placeholder="johndoe@gmail.com"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          value={input.email || ""}
+          onChange={(e) => handleChange(e)}
           required
         />
 
@@ -103,6 +111,8 @@ const Register = () => {
           name="password"
           id="password"
           placeholder="Password"
+          value={input.passwd1 || ""}
+          onChange={(e) => handleChange(e)}
         />
 
         <label className="field-label" htmlFor="confirm-password">
@@ -114,6 +124,8 @@ const Register = () => {
           name="confirm-password"
           id="confirm-password"
           placeholder="Confirm Password"
+          value={input.passwd2 || ""}
+          onChange={(e) => handleChange(e)}
         /> */}
 
         <button className="mt-3 field-rounded btn-primary" type="submit">
