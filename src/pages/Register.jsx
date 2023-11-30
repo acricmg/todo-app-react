@@ -2,11 +2,10 @@ import axios from "axios";
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
-import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-
 import config from "../../config/config";
 import LoginLayout from "../components/LoginLayout";
+import RegStep1 from "../components/regStep1";
+import RegStep2 from "../components/regStep2";
 
 const Register = () => {
   const [input, setInput] = useState({});
@@ -62,111 +61,25 @@ const Register = () => {
         <h3 className="font-bold mb-2.5 text-2xl">Create Account</h3>
         <p>
           Already have an account?
-          <Link className="link" to="/"> Log in</Link>
+          <Link className="link" to="/">
+            {" "}
+            Log in
+          </Link>
         </p>
       </div>
       <form className="mt-6 flex flex-col" onSubmit={handleSubmit}>
         {step === 1 ? (
-          <>
-            <label className="field-label" htmlFor="name">
-              Full Name / Nickname
-            </label>
-            <input
-              className="field"
-              type="text"
-              name="name"
-              id="name"
-              placeholder="John Doe / John"
-              value={input.name || ""}
-              onChange={(e) => handleChange(e)}
-              required
-            />
-
-            <label className="field-label" htmlFor="username">
-              Username
-            </label>
-            <input
-              className="field"
-              type="text"
-              name="username"
-              id="username"
-              placeholder="johndoe1998"
-              value={input.username || ""}
-              onChange={(e) => handleChange(e)}
-              required
-            />
-
-            <label className="field-label" htmlFor="email">
-              Email Address
-            </label>
-            <input
-              className="field"
-              type="email"
-              name="email"
-              id="email"
-              placeholder="johndoe@gmail.com"
-              value={input.email || ""}
-              onChange={(e) => handleChange(e)}
-              required
-            />
-
-            <button
-              className="mt-3 field-rounded btn-primary"
-              onClick={handleContinue}
-            >
-              Continue
-            </button>
-
-            <Link className="mt-6 text-sm text-center link" to="/">
-              <span>
-                <FontAwesomeIcon className="mr-2" icon={faChevronLeft} />
-                Go Back
-              </span>
-            </Link>
-          </>
+          <RegStep1
+            input={input}
+            handleChange={handleChange}
+            handleContinue={handleContinue}
+          />
         ) : (
-          <>
-            <label className="field-label" htmlFor="password">
-              Password
-            </label>
-            <input
-              className="field"
-              type="password"
-              name="password"
-              id="password"
-              placeholder="Password"
-              value={input.passwd1 || ""}
-              onChange={(e) => handleChange(e)}
-            />
-
-            <label className="field-label" htmlFor="confirm-password">
-              Confirm Password
-            </label>
-            <input
-              className="field"
-              type="password"
-              name="confirm-password"
-              id="confirm-password"
-              placeholder="Confirm Password"
-              value={input.passwd2 || ""}
-              onChange={(e) => handleChange(e)}
-            />
-
-            <button
-              className="mt-3 field-rounded btn-primary"
-              type="submit"
-            >
-              Create Account
-            </button>
-
-            <span
-              className="mt-6 text-sm text-center link"
-              onClick={handleBack}
-            >
-              <FontAwesomeIcon className="mr-2" icon={faChevronLeft} />
-              Go Back
-            </span>
-          </>
+          <RegStep2
+            input={input}
+            handleChange={handleChange}
+            handleBack={handleBack}
+          />
         )}
       </form>
     </LoginLayout>
