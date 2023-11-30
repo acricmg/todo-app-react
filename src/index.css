@@ -21,12 +21,21 @@
   @apply justify-center items-center;
 }
 
+
 .field-rounded {
   @apply py-2 p-3 rounded-lg;
 }
 
 .field-border {
   @apply border-2 border-gray-300 border-opacity-80 bg-white focus:outline-none;
+}
+
+.field-label {
+  @apply text-sm text-gray-500;
+}
+
+.field {
+  @apply mt-1 mb-3 field-rounded field-border;
 }
 
 .link {

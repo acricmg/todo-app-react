@@ -18,28 +18,28 @@ const Register = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    try {
-      const formData = {
-        username: username,
-        name: name,
-        password: password,
-        email: email,
-      };
+    // try {
+    //   const formData = {
+    //     username: username,
+    //     name: name,
+    //     password: password,
+    //     email: email,
+    //   };
 
-      const response = await axios.post(
-        `${config.backend.url}/api/user-c`,
-        formData
-      );
-      setStatus("Account Created");
-      console.log("POST request successful:", response.data);
-    } catch (error) {
-      setStatus("Was not able to create account. Check logs.");
-      console.error("POST request failed:", error);
-    }
-    setUsername("");
-    setName("");
-    setPassword("");
-    setEmail("");
+    //   const response = await axios.post(
+    //     `${config.backend.url}/api/user-c`,
+    //     formData
+    //   );
+    //   setStatus("Account Created");
+    //   console.log("POST request successful:", response.data);
+    // } catch (error) {
+    //   setStatus("Was not able to create account. Check logs.");
+    //   console.error("POST request failed:", error);
+    // }
+    // setUsername("");
+    // setName("");
+    // setPassword("");
+    // setEmail("");
   };
 
   return (
@@ -52,37 +52,71 @@ const Register = () => {
         </p>
       </div>
       <form className="my-6 flex flex-col" onSubmit={handleSubmit}>
+        <label className="field-label" htmlFor="name">
+          Full Name / Nickname
+        </label>
         <input
-          className="mb-3 field-rounded field-border"
+          className="field"
           type="text"
           name="name"
           id="name"
-          placeholder="Full Name / Nickname"
+          placeholder="John Doe / John"
           value={name}
           onChange={(e) => setName(e.target.value)}
           required
         />
+
+        <label className="field-label" htmlFor="username">
+          Username
+        </label>
         <input
-          className="mb-3 field-rounded field-border"
+          className="field"
           type="text"
           name="username"
           id="username"
-          placeholder="Username"
+          placeholder="johndoe1998"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
           required
         />
+
+        <label className="field-label" htmlFor="email">
+          Email Address
+        </label>
         <input
-          className="mb-3 field-rounded field-border"
+          className="field"
           type="email"
           name="email"
           id="email"
-          placeholder="Email Address"
+          placeholder="johndoe@gmail.com"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
         />
-        <button className="field-rounded btn-primary" type="submit">
+
+        {/* <label className="field-label" htmlFor="password">
+          Password
+        </label>
+        <input
+          className="field"
+          type="password"
+          name="password"
+          id="password"
+          placeholder="Password"
+        />
+
+        <label className="field-label" htmlFor="confirm-password">
+          Confirm Password
+        </label>
+        <input
+          className="field"
+          type="password"
+          name="confirm-password"
+          id="confirm-password"
+          placeholder="Confirm Password"
+        /> */}
+
+        <button className="mt-3 field-rounded btn-primary" type="submit">
           Continue
         </button>
       </form>
@@ -91,14 +125,6 @@ const Register = () => {
         <span>Go Back</span>
       </Link>
     </LoginLayout>
-
-    // <input
-    //     className="mb-3 field-rounded field-border"
-    //     type="password"
-    //     name="password"
-    //     id="passwd"
-    //     placeholder="Password"
-    //   />
   );
 };
 
