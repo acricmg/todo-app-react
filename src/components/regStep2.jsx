@@ -13,8 +13,8 @@ const RegStep2 = ({ input, handleChange, handleBack }) => {
           type="password"
           name="password"
           id="password"
-          placeholder="Password"
-          value={input.passwd1 || ""}
+          placeholder="********"
+          value={input.password || ""}
           onChange={(e) => handleChange(e)}
         />
 
@@ -24,10 +24,10 @@ const RegStep2 = ({ input, handleChange, handleBack }) => {
         <input
           className="field"
           type="password"
-          name="confirm-password"
-          id="confirm-password"
-          placeholder="Confirm Password"
-          value={input.passwd2 || ""}
+          name="confirmPassword"
+          id="confirmPassword"
+          placeholder="********"
+          value={input.confirmPassword || ""}
           onChange={(e) => handleChange(e)}
         />
 

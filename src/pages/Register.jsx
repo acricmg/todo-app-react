@@ -31,6 +31,7 @@ const Register = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
+    console.log(input);
     // try {
     //   const formData = {
     //     username: username,
