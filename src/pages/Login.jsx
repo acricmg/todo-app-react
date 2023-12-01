@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import LoginLayout from "../components/LoginLayout";
 
 const Login = () => {
@@ -8,10 +9,10 @@ const Login = () => {
         <h3 className="font-bold mb-2.5 text-2xl">Log in</h3>
         <p>
           Don't have an account?
-          <span className="link">
+          <Link className="link" to="/register"> 
             {" "}
             Create one
-          </span>
+          </Link>
         </p>
       </div>
       <form className="my-6 flex flex-col" action="" method="post">
