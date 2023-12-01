@@ -59,7 +59,10 @@ const EditPrompt = ({ task, parentOnClose }) => {
           bounds="parent"
           handle=".draggable-handle"
         >
-          <div ref={nodeRef} className="bg-white shadow-lg rounded-lg w-2/5">
+          <div
+            ref={nodeRef}
+            className="bg-white shadow-lg rounded-lg w-3/4 lg:w-2/5"
+          >
             <div className="grid grid-cols-1">
               <div className="border-b p-4 flex draggable-handle">
                 <p className="font-bold">Draggable Edit Prompt</p>

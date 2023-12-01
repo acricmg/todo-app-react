@@ -5,7 +5,11 @@ import config from "../../config/config";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheckCircle, faCircle } from "@fortawesome/free-regular-svg-icons";
 import Notification from "./Notification";
-import { faPencil, faTrash } from "@fortawesome/free-solid-svg-icons";
+import {
+  faPencil,
+  faTrash,
+  faCirclePlus,
+} from "@fortawesome/free-solid-svg-icons";
 import EditPrompt from "./EditPrompt";
 
 const TaskList = ({ userId }) => {
@@ -130,11 +134,11 @@ const TaskList = ({ userId }) => {
                   <div className="absolute right-0 flex">
                     <div
                       onClick={() => showEditPrompt(task)}
-                      className="border hover:bg-gray-700 bg-white text-black hover:text-white items-center px-2 rounded mx-1"
+                      className="border hover:bg-gray-700 bg-white text-black hover:text-white items-center px-2 rounded mx-1 cursor-pointer"
                     >
                       <FontAwesomeIcon icon={faPencil} size="xs" />
                     </div>
-                    <div className="border hover:bg-gray-700 bg-white text-[#9a0000] hover:text-white items-center px-2 rounded mx-1">
+                    <div className="border hover:bg-gray-700 bg-white text-[#9a0000] hover:text-white items-center px-2 rounded mx-1 cursor-pointer">
                       <FontAwesomeIcon icon={faTrash} size="xs" />
                     </div>
                   </div>
@@ -143,9 +147,57 @@ const TaskList = ({ userId }) => {
                 <p className="ml-7 text-slate-500">{task.status}</p>
               </li>
             ))}
+            <li className="mb-5 text-left rounded-lg p-2">
+              <div className="flex items-center relative mb-3">
+                <FontAwesomeIcon
+                  icon={faCirclePlus}
+                  className="cursor-pointer transition duration-300 ease-in-out text-blue-600 transform hover:opacity-100 opacity-50"
+                />
+                <input
+                  className="ml-3 bg-white border-b hover:bg-gray-300"
+                  type="text"
+                  placeholder="Task Title"
+                />
+              </div>
+              <div className="relative items-center">
+                <textarea
+                  id="description"
+                  name="description"
+                  className="ml-7 bg-white border w-1/2 rounded py-2"
+                  placeholder="New Task desx"
+                />
+                <button className="absolute right-0 top-0 bottom-0 bg-blue-200 h-1/2 px-3 rounded-lg">
+                  Create Task
+                </button>
+              </div>
+            </li>
           </ul>
         ) : taskData && !Object.keys(taskData).includes("Unfinished") ? (
-          <p>No tasks. Good Job! 🥳</p>
+          <div>
+            <p>No tasks. Good Job! 🥳</p>
+            <div className="flex items-center relative mb-3 mt-5 border-t pt-3">
+              <FontAwesomeIcon
+                icon={faCirclePlus}
+                className="cursor-pointer transition duration-300 ease-in-out text-blue-600 transform hover:opacity-100 opacity-50"
+              />
+              <input
+                className="ml-3 bg-white border-b hover:bg-gray-900"
+                type="text"
+                placeholder="Task Title"
+              />
+            </div>
+            <div className="relative items-center">
+              <textarea
+                id="description"
+                name="description"
+                className="ml-7 bg-white border w-1/2 rounded py-2"
+                placeholder="New Task description"
+              />
+              <button className="absolute right-0 top-0 bottom-0 bg-blue-200 h-1/2 px-3 rounded-lg">
+                Create Task
+              </button>
+            </div>
+          </div>
         ) : (
           <p>Loading...</p>
         )}
