@@ -21,6 +21,7 @@
   @apply justify-center items-center;
 }
 
+
 .field-rounded {
   @apply py-2 p-3 rounded-lg;
 }
@@ -29,8 +30,16 @@
   @apply border-2 border-gray-300 border-opacity-80 bg-white focus:outline-none;
 }
 
+.field-label {
+  @apply text-sm text-gray-500;
+}
+
+.field {
+  @apply mt-1 mb-3 field-rounded field-border text-gray-500;
+}
+
 .link {
-  @apply text-secondary transition ease-out duration-300 hover:text-secondary-200 hover:font-medium; 
+  @apply text-secondary transition ease-out duration-300 hover:text-secondary-200 hover:font-medium cursor-pointer; 
 }
 
 .btn-primary {
