@@ -6,7 +6,7 @@ const LoginLayout = ({children}) => {
     <div className="mt-24 flex flex-col flex-center">
       <div className="flex flex-center text-primary">
         <img
-          className="h-10 sm:h-7 self-center"
+          className="h-8 sm:h-6 self-center"
           src={logo}
           alt="minimalistic icon of sticky notes"
         />
