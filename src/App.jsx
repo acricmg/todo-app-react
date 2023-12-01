@@ -6,7 +6,7 @@ import NotFound from "./pages/NotFound";
 import Register from "./pages/Register";
 import Users from "./pages/Users";
 
-import "./App.css";
+import "./assets/css/App.css";
 import Tasks from "./pages/Tasks";
 
 const App = () => {
