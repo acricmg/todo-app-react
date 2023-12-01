@@ -31,29 +31,34 @@ const Register = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    console.log(input);
-    // try {
-    //   const formData = {
-    //     username: username,
-    //     name: name,
-    //     password: password,
-    //     email: email,
-    //   };
+    try {
+      const formData = {
+        username: input.username,
+        name: input.name,
+        password: input.password,
+        email: input.email,
+      };
 
-    //   const response = await axios.post(
-    //     `${config.backend.url}/api/user-c`,
-    //     formData
-    //   );
-    //   setStatus("Account Created");
-    //   console.log("POST request successful:", response.data);
-    // } catch (error) {
-    //   setStatus("Was not able to create account. Check logs.");
-    //   console.error("POST request failed:", error);
-    // }
-    // setUsername("");
-    // setName("");
-    // setPassword("");
-    // setEmail("");
+      if (formData.password === input.confirmPassword) {
+        const response = await axios.post(
+          `${config.backend.url}/api/user-c`,
+          formData
+        );
+        console.log("POST request successful:", response.data);
+        setInput({});
+      } else {
+        console.log("Password not match");
+
+        setInput((inputs) => {
+          return { ...inputs, password: "" };
+        });
+        setInput((inputs) => {
+          return { ...inputs, confirmPassword: "" };
+        });
+      }
+    } catch (error) {
+      console.error("POST request failed:", error);
+    }
   };
 
   return (
