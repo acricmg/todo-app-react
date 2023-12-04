@@ -16,6 +16,7 @@ const RegStep2 = ({ input, handleChange, handleBack }) => {
           placeholder="********"
           value={input.password || ""}
           onChange={(e) => handleChange(e)}
+          required
         />
 
         <label className="field-label" htmlFor="confirm-password">
@@ -29,6 +30,7 @@ const RegStep2 = ({ input, handleChange, handleBack }) => {
           placeholder="********"
           value={input.confirmPassword || ""}
           onChange={(e) => handleChange(e)}
+          required
         />
 
         <button className="mt-3 field-rounded btn-primary" type="submit">
