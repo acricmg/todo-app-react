@@ -2,7 +2,7 @@ import React from "react";
 
 import TaskList from "../components/TaskList";
 import Layout from "../components/Layout";
-
+import DraggableList from "../components/DraggableList";
 const Tasks = () => {
   return (
     <Layout>

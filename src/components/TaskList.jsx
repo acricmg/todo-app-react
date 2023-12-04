@@ -11,10 +11,77 @@ import {
   faCirclePlus,
 } from "@fortawesome/free-solid-svg-icons";
 import EditPrompt from "./EditPrompt";
+import { DndProvider, useDrag, useDrop } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
+
+const ItemType = "LIST_ITEM";
+
+// Component for task list item
+const DraggableListItem = ({
+  id,
+  task,
+  index,
+  moveItem,
+  handleCircleClick,
+  showEditPrompt,
+}) => {
+  const [, ref] = useDrag({
+    type: ItemType,
+    item: { id, index },
+  });
+
+  const [, drop] = useDrop({
+    accept: ItemType,
+    hover: (draggedItem) => {
+      if (draggedItem.index !== index) {
+        moveItem(draggedItem.index, index);
+        draggedItem.index = index;
+      }
+    },
+  });
+
+  return (
+    <li
+      ref={(node) => ref(drop(node))}
+      className="mb-5 text-left bg-gray-100 rounded-lg p-2 cursor-grab"
+      key={task._id}
+    >
+      <div className="flex items-center relative">
+        <FontAwesomeIcon
+          icon={
+            task.status.toLowerCase() == "finished" ? faCheckCircle : faCircle
+          }
+          onClick={() => handleCircleClick(task, "Finished", "#00b300")}
+          className="cursor-pointer transition duration-300 ease-in-out transform hover:opacity-100 opacity-50"
+        />
+        <p className="font-bold ml-3">{task.title}</p>
+        <div className="absolute right-0 flex">
+          <div
+            onClick={() => showEditPrompt(task)}
+            className="border hover:bg-gray-700 bg-white text-black hover:text-white items-center px-2 rounded mx-1 cursor-pointer"
+          >
+            <FontAwesomeIcon icon={faPencil} size="xs" />
+          </div>
+          <div className="border hover:bg-gray-700 bg-white text-[#9a0000] hover:text-white items-center px-2 rounded mx-1 cursor-pointer">
+            <FontAwesomeIcon icon={faTrash} size="xs" />
+          </div>
+        </div>
+      </div>
+      <p className="ml-7 text-slate-500">{task.description}</p>
+      <p className="ml-7 text-slate-500">{task.status}</p>
+    </li>
+  );
+};
 
 const TaskList = ({ userId }) => {
   // State to hold the fetched data
   const [taskData, setTaskData] = useState(null);
+  const [newTask, setNewTask] = useState({
+    status: "Unfinished",
+    assignedTo: userId,
+    group: "",
+  });
+  const [unfinishedTaskData, setUnfinishedTaskData] = useState(null);
   const navigate = useNavigate();
   const [notification, setNotification] = useState(null);
   const [editPrompt, setEditPrompt] = useState(null);
@@ -48,6 +115,34 @@ const TaskList = ({ userId }) => {
     handleEditPromptVisibility(false);
   };
 
+  const moveItem = (fromIndex, toIndex) => {
+    const updatedItems = [...unfinishedTaskData];
+    const [movedItem] = updatedItems.splice(fromIndex, 1);
+    updatedItems.splice(toIndex, 0, movedItem);
+    setUnfinishedTaskData(updatedItems);
+  };
+
+  const handleNewTaskChange = (e) => {
+    const name = e.target.name;
+    const value = e.target.value == "" ? task[name] : e.target.value;
+    setNewTask({
+      ...newTask,
+      [name]: value,
+    });
+  };
+
+  const createTask = async () => {
+    try {
+      const response = await axios.post(
+        `${config.backend.url}/api/task-c`,
+        newTask
+      );
+      fetchData();
+    } catch (error) {
+      console.error("Error updating data:", error);
+    }
+  };
+
   // Effect to fetch data when the component mounts
   useEffect(() => {
     fetchData();
@@ -68,6 +163,7 @@ const TaskList = ({ userId }) => {
         return acc;
       }, {});
       setTaskData(tasks);
+      setUnfinishedTaskData(tasks[["Unfinished"]]);
     } catch (error) {
       console.error("Error fetching data:", error);
     }
@@ -111,96 +207,79 @@ const TaskList = ({ userId }) => {
         <h2 className="text-3xl text-left font-bold h-100 border-b my-2 mb-5">
           Tasks
         </h2>
-        {taskData && Object.keys(taskData).includes("Unfinished") ? (
-          <ul>
-            {taskData["Unfinished"].map((task) => (
-              <li
-                className="mb-5 text-left bg-gray-100 rounded-lg p-2 hover:bg-black hover:text-white"
-                key={task._id}
-              >
-                <div className="flex items-center relative">
-                  <FontAwesomeIcon
-                    icon={
-                      task.status.toLowerCase() == "finished"
-                        ? faCheckCircle
-                        : faCircle
-                    }
-                    onClick={() =>
-                      handleCircleClick(task, "Finished", "#00b300")
-                    }
-                    className="cursor-pointer transition duration-300 ease-in-out transform hover:opacity-100 opacity-50"
-                  />
-                  <p className="font-bold ml-3">{task.title}</p>
-                  <div className="absolute right-0 flex">
-                    <div
-                      onClick={() => showEditPrompt(task)}
-                      className="border hover:bg-gray-700 bg-white text-black hover:text-white items-center px-2 rounded mx-1 cursor-pointer"
-                    >
-                      <FontAwesomeIcon icon={faPencil} size="xs" />
-                    </div>
-                    <div className="border hover:bg-gray-700 bg-white text-[#9a0000] hover:text-white items-center px-2 rounded mx-1 cursor-pointer">
-                      <FontAwesomeIcon icon={faTrash} size="xs" />
-                    </div>
-                  </div>
-                </div>
-                <p className="ml-7 text-slate-500">{task.description}</p>
-                <p className="ml-7 text-slate-500">{task.status}</p>
-              </li>
-            ))}
-            <li className="mb-5 text-left rounded-lg p-2">
-              <div className="flex items-center relative mb-3">
-                <FontAwesomeIcon
-                  icon={faCirclePlus}
-                  className="cursor-pointer transition duration-300 ease-in-out text-blue-600 transform hover:opacity-100 opacity-50"
-                />
-                <input
-                  className="ml-3 bg-white border-b hover:bg-gray-300"
-                  type="text"
-                  placeholder="Task Title"
-                />
-              </div>
-              <div className="relative items-center">
-                <textarea
-                  id="description"
-                  name="description"
-                  className="ml-7 bg-white border w-1/2 rounded py-2"
-                  placeholder="New Task desx"
-                />
-                <button className="absolute right-0 top-0 bottom-0 bg-blue-200 h-1/2 px-3 rounded-lg">
-                  Create Task
-                </button>
-              </div>
-            </li>
-          </ul>
-        ) : taskData && !Object.keys(taskData).includes("Unfinished") ? (
+        <DndProvider backend={HTML5Backend}>
           <div>
-            <p>No tasks. Good Job! 🥳</p>
-            <div className="flex items-center relative mb-3 mt-5 border-t pt-3">
-              <FontAwesomeIcon
-                icon={faCirclePlus}
-                className="cursor-pointer transition duration-300 ease-in-out text-blue-600 transform hover:opacity-100 opacity-50"
-              />
-              <input
-                className="ml-3 bg-white border-b hover:bg-gray-900"
-                type="text"
-                placeholder="Task Title"
-              />
-            </div>
-            <div className="relative items-center">
-              <textarea
-                id="description"
-                name="description"
-                className="ml-7 bg-white border w-1/2 rounded py-2"
-                placeholder="New Task description"
-              />
-              <button className="absolute right-0 top-0 bottom-0 bg-blue-200 h-1/2 px-3 rounded-lg">
-                Create Task
-              </button>
-            </div>
+            {unfinishedTaskData ? (
+              unfinishedTaskData.map((task, index) => (
+                <DraggableListItem
+                  id={task._id}
+                  task={task}
+                  index={index}
+                  moveItem={moveItem}
+                  handleCircleClick={handleCircleClick}
+                  showEditPrompt={showEditPrompt}
+                />
+              ))
+            ) : taskData && !Object.keys(taskData).includes("Unfinished") ? (
+              <div>
+                <p>No tasks. Good Job! 🥳</p>
+                <div className="flex items-center relative mb-3 mt-5 border-t pt-3">
+                  <FontAwesomeIcon
+                    icon={faCirclePlus}
+                    className="cursor-pointer transition duration-300 ease-in-out text-blue-600 transform hover:opacity-100 opacity-50"
+                  />
+                  <input
+                    className="ml-3 bg-white border-b hover:bg-gray-900"
+                    type="text"
+                    placeholder="Task Title"
+                  />
+                </div>
+                <div className="relative items-center">
+                  <textarea
+                    id="description"
+                    name="description"
+                    className="ml-7 bg-white border w-1/2 rounded py-2"
+                    placeholder="New Task description"
+                  />
+                  <button className="absolute right-0 top-0 bottom-0 bg-blue-200 h-1/2 px-3 rounded-lg">
+                    Create Task
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <p>Loading...</p>
+            )}
           </div>
-        ) : (
-          <p>Loading...</p>
-        )}
+        </DndProvider>
+        <div className="flex items-center relative mb-3 mt-5 border-t pt-3">
+          <FontAwesomeIcon
+            icon={faCirclePlus}
+            className="cursor-pointer transition duration-300 ease-in-out text-blue-600 transform hover:opacity-100 opacity-50"
+          />
+          <input
+            className="ml-3 bg-white border-b"
+            id="title"
+            name="title"
+            onChange={handleNewTaskChange}
+            type="text"
+            placeholder="Task Title"
+          />
+        </div>
+        <div className="relative items-center">
+          <textarea
+            id="description"
+            name="description"
+            onChange={handleNewTaskChange}
+            className="ml-7 bg-white border w-1/2 rounded py-2"
+            placeholder="New Task description"
+          />
+          <button
+            className="absolute right-0 top-0 bottom-0 bg-blue-200 h-1/2 px-3 rounded-lg"
+            onClick={createTask}
+          >
+            Create Task
+          </button>
+        </div>
       </div>
 
       <div className="bg-white rounded-lg p-4">
