@@ -44,9 +44,9 @@ const EditPrompt = ({ task, parentOnClose }) => {
 
   const bounds = {
     left: 0,
-    right: window.innerWidth, // Adjust the width as needed
+    right: window.innerWidth,
     top: 0,
-    bottom: window.innerHeight, // Adjust the height as needed
+    bottom: parent.innerHeight,
   };
 
   return (

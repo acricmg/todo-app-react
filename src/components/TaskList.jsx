@@ -9,6 +9,7 @@ import {
   faPencil,
   faTrash,
   faCirclePlus,
+  faFloppyDisk,
 } from "@fortawesome/free-solid-svg-icons";
 import EditPrompt from "./EditPrompt";
 import { DndProvider, useDrag, useDrop } from "react-dnd";
@@ -43,7 +44,7 @@ const DraggableListItem = ({
   return (
     <li
       ref={(node) => ref(drop(node))}
-      className="mb-5 text-left bg-gray-100 rounded-lg p-2 cursor-grab"
+      className="mb-5 text-left shadow border bg-white rounded-lg p-2 cursor-grab"
       key={task._id}
     >
       <div className="flex items-center relative">
@@ -87,6 +88,12 @@ const TaskList = ({ userId }) => {
   const [editPrompt, setEditPrompt] = useState(null);
   const [editTaskSelected, setEditTaskSelected] = useState(null);
   const [notificationColor, setNotificationColor] = useState("");
+
+  const [selection, setSelection] = useState({
+    startDate: new Date(),
+    endDate: new Date(),
+    key: "selection",
+  });
 
   const showNotification = (message, color) => {
     setNotification(message);
@@ -203,7 +210,7 @@ const TaskList = ({ userId }) => {
           />
         )}
       </div>
-      <div className="bg-white rounded-lg p-4 mr-0">
+      <div className="border bg-white rounded-lg p-4 mr-0 mb-3 w-auto">
         <h2 className="text-3xl text-left font-bold h-100 border-b my-2 mb-5">
           Tasks
         </h2>
@@ -223,62 +230,53 @@ const TaskList = ({ userId }) => {
             ) : taskData && !Object.keys(taskData).includes("Unfinished") ? (
               <div>
                 <p>No tasks. Good Job! 🥳</p>
-                <div className="flex items-center relative mb-3 mt-5 border-t pt-3">
-                  <FontAwesomeIcon
-                    icon={faCirclePlus}
-                    className="cursor-pointer transition duration-300 ease-in-out text-blue-600 transform hover:opacity-100 opacity-50"
-                  />
-                  <input
-                    className="ml-3 bg-white border-b hover:bg-gray-900"
-                    type="text"
-                    placeholder="Task Title"
-                  />
-                </div>
-                <div className="relative items-center">
-                  <textarea
-                    id="description"
-                    name="description"
-                    className="ml-7 bg-white border w-1/2 rounded py-2"
-                    placeholder="New Task description"
-                  />
-                  <button className="absolute right-0 top-0 bottom-0 bg-blue-200 h-1/2 px-3 rounded-lg">
-                    Create Task
-                  </button>
-                </div>
               </div>
             ) : (
               <p>Loading...</p>
             )}
           </div>
         </DndProvider>
-        <div className="flex items-center relative mb-3 mt-5 border-t pt-3">
-          <FontAwesomeIcon
-            icon={faCirclePlus}
-            className="cursor-pointer transition duration-300 ease-in-out text-blue-600 transform hover:opacity-100 opacity-50"
-          />
-          <input
-            className="ml-3 bg-white border-b"
-            id="title"
-            name="title"
-            onChange={handleNewTaskChange}
-            type="text"
-            placeholder="Task Title"
-          />
-        </div>
-        <div className="relative items-center">
-          <textarea
-            id="description"
-            name="description"
-            onChange={handleNewTaskChange}
-            className="ml-7 bg-white border w-1/2 rounded py-2"
-            placeholder="New Task description"
-          />
-          <button
-            className="absolute right-0 top-0 bottom-0 bg-blue-200 h-1/2 px-3 rounded-lg"
-            onClick={createTask}
-          >
-            Create Task
-          </button>
+        <div className="flex mb-3 mt-5 border-t pt-3">
+          <div className="flex-1 gap-4">
+            <div className="flex items-center relative">
+              <FontAwesomeIcon
+                icon={faCirclePlus}
+                className="cursor-pointer transition duration-300 ease-in-out text-blue-600 transform hover:opacity-100 opacity-50"
+              />
+              <input
+                className="ml-3 bg-white border-b"
+                id="title"
+                name="title"
+                onChange={handleNewTaskChange}
+                type="text"
+                placeholder="Task Title"
+              />
+            </div>
+            <div className="relative items-center">
+              <textarea
+                id="description"
+                name="description"
+                onChange={handleNewTaskChange}
+                className="mt-5 ml-7 bg-white border w-full rounded py-2"
+                placeholder="New Task description"
+              />
+            </div>
+            <div></div>
+            {newTask.dueDate}
+          </div>
+          <div className="w-[50px] relative ml-10">
+            {newTask.title != null ? (
+              <button className="absolute right-0 top-0 bottom-0 bg-blue-200 h-1/2 px-3 rounded-lg my-auto h-45">
+                <FontAwesomeIcon
+                  className="text-white"
+                  icon={faFloppyDisk}
+                  onClick={createTask}
+                />
+              </button>
+            ) : (
+              ""
+            )}
+          </div>
         </div>
       </div>
 
