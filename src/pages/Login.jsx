@@ -44,7 +44,7 @@ const Login = () => {
   return (
     <LoginLayout>
       <div className="text-center sm:text-left">
-        <h3 className="font-bold mb-2.5 text-2xl">Log in</h3>
+        <h3 className="font-bold mb-1.5 text-2xl">Log in</h3>
         <p>
           Don't have an account?
           <Link className="link" to="/register">
