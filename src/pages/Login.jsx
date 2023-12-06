@@ -54,22 +54,28 @@ const Login = () => {
         </p>
       </div>
       <form className="my-4 flex flex-col" onSubmit={handleSubmit}>
+        <label className="field-label" htmlFor="username">
+          Username
+        </label>
         <input
           className="field"
           type="text"
           name="username"
           id="username"
-          placeholder="Username"
+          placeholder="johndoe1988"
           value={input.username || ""}
           onChange={(e) => handleChange(e)}
           required
         />
+        <label className="field-label" htmlFor="username">
+          Password
+        </label>
         <input
           className="field"
           type="password"
           name="password"
           id="password"
-          placeholder="Password"
+          placeholder="********"
           value={input.password || ""}
           onChange={(e) => handleChange(e)}
           required
