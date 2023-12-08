@@ -78,7 +78,7 @@ const TaskList = ({ userId }) => {
   // State to hold the fetched data
   const [taskData, setTaskData] = useState(null);
   const [newTask, setNewTask] = useState({
-    status: "Unfinished",
+    status: "unfinished",
     assignedTo: userId,
     group: "",
   });
@@ -164,13 +164,13 @@ const TaskList = ({ userId }) => {
 
       // Set the fetched data in state
       const tasks = response.data.tasks.reduce((acc, obj) => {
-        const key = obj["status"];
+        const key = obj["status"].toLowerCase();
         acc[key] = acc[key] || [];
         acc[key].push(obj);
         return acc;
       }, {});
       setTaskData(tasks);
-      setUnfinishedTaskData(tasks[["Unfinished"]]);
+      setUnfinishedTaskData(tasks[["unfinished"]]);
     } catch (error) {
       console.error("Error fetching data:", error);
     }
@@ -227,7 +227,7 @@ const TaskList = ({ userId }) => {
                   showEditPrompt={showEditPrompt}
                 />
               ))
-            ) : taskData && !Object.keys(taskData).includes("Unfinished") ? (
+            ) : taskData && !Object.keys(taskData).includes("unfinished") ? (
               <div>
                 <p>No tasks. Good Job! 🥳</p>
               </div>
@@ -296,7 +296,7 @@ const TaskList = ({ userId }) => {
                         : faCircle
                     }
                     onClick={() =>
-                      handleCircleClick(task, "Unfinished", "#b30000")
+                      handleCircleClick(task, "unfinished", "#b30000")
                     }
                     className="cursor-pointer transition duration-300 ease-in-out transform hover:opacity-100 opacity-50"
                   />
