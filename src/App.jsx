@@ -4,9 +4,8 @@ import { Link, Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import Login from "./pages/Login";
 import NotFound from "./pages/NotFound";
 import Register from "./pages/Register";
-import Users from "./pages/Users";
-
 import Tasks from "./pages/Tasks";
+import Users from "./pages/Users";
 
 const App = () => {
   return (

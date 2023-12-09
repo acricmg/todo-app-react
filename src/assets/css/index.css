@@ -45,3 +45,7 @@
 .btn-primary {
   @apply bg-primary text-white font-medium transition ease-out duration-500 hover:bg-primary-200 hover:shadow-md;
 }
+
+.header-icon-size {
+  @apply w-5 h-5;
+}
