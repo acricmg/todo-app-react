@@ -4,8 +4,8 @@ import { Link } from "react-router-dom";
 
 import config from "../../config/config";
 import LoginLayout from "../components/LoginLayout";
-import RegStep1 from "../components/regStep1";
-import RegStep2 from "../components/regStep2";
+import RegStep1 from "../components/RegStep1";
+import RegStep2 from "../components/RegStep2";
 
 const Register = () => {
   const [input, setInput] = useState({});
