@@ -1,19 +1,19 @@
-import axios from "axios";
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import config from "../../config/config";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheckCircle, faCircle } from "@fortawesome/free-regular-svg-icons";
-import Notification from "./Notification";
 import {
-  faPencil,
-  faTrash,
   faCirclePlus,
   faFloppyDisk,
+  faPen,
+  faTrash,
 } from "@fortawesome/free-solid-svg-icons";
-import EditPrompt from "./EditPrompt";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import axios from "axios";
+import { useEffect, useState } from "react";
 import { DndProvider, useDrag, useDrop } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
+import { useNavigate } from "react-router-dom";
+import config from "../../config/config";
+import EditPrompt from "./EditPrompt";
+import Notification from "./Notification";
 
 const ItemType = "LIST_ITEM";
 
@@ -44,32 +44,34 @@ const DraggableListItem = ({
   return (
     <li
       ref={(node) => ref(drop(node))}
-      className="mb-5 text-left shadow border bg-white rounded-lg p-2 cursor-grab"
+      className="mb-5 cursor-grab list-none"
       key={task._id}
     >
-      <div className="flex items-center relative">
+      <div className="flex items-center">
         <FontAwesomeIcon
+          className="text-slate-500 cursor-pointer transition duration-300 ease-in-out transform hover:opacity-100 opacity-50"
+          onClick={() => handleCircleClick(task, "Finished", "#00b300")}
           icon={
             task.status.toLowerCase() == "finished" ? faCheckCircle : faCircle
           }
-          onClick={() => handleCircleClick(task, "Finished", "#00b300")}
-          className="cursor-pointer transition duration-300 ease-in-out transform hover:opacity-100 opacity-50"
         />
-        <p className="font-bold ml-3">{task.title}</p>
-        <div className="absolute right-0 flex">
-          <div
-            onClick={() => showEditPrompt(task)}
-            className="border hover:bg-gray-700 bg-white text-black hover:text-white items-center px-2 rounded mx-1 cursor-pointer"
-          >
-            <FontAwesomeIcon icon={faPencil} size="xs" />
-          </div>
-          <div className="border hover:bg-gray-700 bg-white text-[#9a0000] hover:text-white items-center px-2 rounded mx-1 cursor-pointer">
-            <FontAwesomeIcon icon={faTrash} size="xs" />
+        <div className="w-full ml-3 flex justify-between">
+          <p className="font-bold">{task.title}</p>
+          <div className="text-slate-300 flex">
+            <div
+              onClick={() => showEditPrompt(task)}
+              className="mr-4 items-center cursor-pointer hover:text-slate-700"
+            >
+              <FontAwesomeIcon icon={faPen} size="sm" />
+            </div>
+            <div className="items-center cursor-pointer hover:text-slate-700">
+              <FontAwesomeIcon icon={faTrash} size="sm" />
+            </div>
           </div>
         </div>
       </div>
       <p className="ml-7 text-slate-500">{task.description}</p>
-      <p className="ml-7 text-slate-500">{task.status}</p>
+      {/* <p className="ml-7 text-slate-500">{task.status}</p> */}
     </li>
   );
 };
@@ -194,8 +196,8 @@ const TaskList = ({ userId }) => {
   };
 
   return (
-    <div>
-      {editPrompt && (
+    <div className="w-full p-7 flex justify-center gap-8">
+      {/* {editPrompt && (
         <EditPrompt
           task={editTaskSelected}
           parentOnClose={handleEditPromptVisibility}
@@ -209,11 +211,14 @@ const TaskList = ({ userId }) => {
             onClose={closeNotification}
           />
         )}
-      </div>
-      <div className="border bg-white rounded-lg p-4 mr-0 mb-3 w-auto">
-        <h2 className="text-3xl text-left font-bold h-100 border-b my-2 mb-5">
-          Tasks
-        </h2>
+      </div> */}
+      <div className="h-fit bg-white rounded-lg p-8 drop-shadow-md flex-1 ">
+        <div className="flex items-center border-b-2 pb-4 mb-8">
+          <h2 className="mr-3 text-3xl font-bold">Tasks</h2>
+          <div className="circle-sm bg-primary text-white">
+            <span>5</span>
+          </div>
+        </div>
         <DndProvider backend={HTML5Backend}>
           <div>
             {unfinishedTaskData ? (
@@ -236,23 +241,21 @@ const TaskList = ({ userId }) => {
             )}
           </div>
         </DndProvider>
-        <div className="flex mb-3 mt-5 border-t pt-3">
-          <div className="flex-1 gap-4">
-            <div className="flex items-center relative">
-              <FontAwesomeIcon
-                icon={faCirclePlus}
-                className="cursor-pointer transition duration-300 ease-in-out text-blue-600 transform hover:opacity-100 opacity-50"
-              />
-              <input
+        <div className="mt-7 flex border-t-2">
+          <div className="flex gap-4">
+            <div className="mt-4 text-primary opacity-60 flex items-center relative cursor-pointer transition duration-300 ease-in-out transform hover:opacity-100">
+              <FontAwesomeIcon icon={faCirclePlus} />
+              <p className="ml-3 font-medium">Add a new task</p>
+              {/* <input
                 className="ml-3 bg-white border-b"
                 id="title"
                 name="title"
                 onChange={handleNewTaskChange}
                 type="text"
                 placeholder="Task Title"
-              />
+              /> */}
             </div>
-            <div className="relative items-center">
+            {/* <div className="relative items-center">
               <textarea
                 id="description"
                 name="description"
@@ -260,11 +263,10 @@ const TaskList = ({ userId }) => {
                 className="mt-5 ml-7 bg-white border w-full rounded py-2"
                 placeholder="New Task description"
               />
-            </div>
-            <div></div>
-            {newTask.dueDate}
+            </div> */}
+            {/* {newTask.dueDate} */}
           </div>
-          <div className="w-[50px] relative ml-10">
+          {/* <div className="w-[50px] relative ml-10">
             {newTask.title != null ? (
               <button className="absolute right-0 top-0 bottom-0 bg-blue-200 h-1/2 px-3 rounded-lg my-auto h-45">
                 <FontAwesomeIcon
@@ -276,14 +278,17 @@ const TaskList = ({ userId }) => {
             ) : (
               ""
             )}
-          </div>
+          </div> */}
         </div>
       </div>
 
-      <div className="bg-white rounded-lg p-4">
-        <h2 className="text-3xl text-left font-bold h-100 border-b my-2 mb-5">
-          Finished Tasks
-        </h2>
+      <div className="h-fit bg-white rounded-lg p-8 drop-shadow-md flex-1">
+        <div className="flex items-center border-b-2 pb-4 mb-8">
+          <h2 className="mr-3 text-3xl font-bold">Completed</h2>
+          <div className="circle-sm bg-success text-white">
+            <span>2</span>
+          </div>
+        </div>
         {taskData && taskData["Finished"] !== undefined ? (
           <ul>
             {taskData["Finished"].map((task) => (

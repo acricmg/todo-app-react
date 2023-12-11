@@ -13,7 +13,7 @@ const Layout = ({ children }) => {
       <Header />
       <div className="h-full lg:flex">
         <Navbar />
-        {/* <div>{children}</div> */}
+        {children}
       </div>
     </>
   );
