@@ -49,3 +49,7 @@
 .header-icon-size {
   @apply w-5 h-5;
 }
+
+.circle-sm {
+  @apply text-sm font-semibold w-6 h-6 rounded-full flex flex-center;
+}
