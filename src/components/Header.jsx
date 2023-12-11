@@ -11,7 +11,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 const Header = () => {
   return (
     <>
-      <header className="px-6 py-5 mb-4 flex justify-between drop-shadow-sm bg-white text-primary text-xl ">
+      <header className="px-6 py-5 flex justify-between drop-shadow-sm bg-white text-primary text-xl ">
         <nav>
           <ul className="flex gap-7">
             <li className="font-bold">
@@ -36,7 +36,6 @@ const Header = () => {
           </li>
         </ul>
       </header>
-      ;
     </>
   );
 };
