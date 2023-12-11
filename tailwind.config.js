@@ -12,6 +12,7 @@ export default {
         "secondary-100": "#398296",
         "secondary-200": "#276A7C",
         "secondary-300": "#184957",
+        success: "#548840,",
       },
     },
   },
