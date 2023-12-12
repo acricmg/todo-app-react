@@ -1,30 +1,16 @@
 import { React } from "react";
 
-import {
-  faBell,
-  faCircleUser,
-  faFileLines,
-} from "@fortawesome/free-regular-svg-icons";
-import { faChevronDown, faHouse } from "@fortawesome/free-solid-svg-icons";
+import { faBell, faCircleUser } from "@fortawesome/free-regular-svg-icons";
+import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
+import PrimaryNav from "./PrimaryNav";
 
 const Header = () => {
   return (
     <>
       <header className="px-6 py-5 flex justify-between drop-shadow-sm bg-white text-primary text-xl ">
-        <nav>
-          <ul className="flex gap-7">
-            <li className="font-bold">
-              <FontAwesomeIcon className="mr-2" icon={faHouse} />
-              Home
-            </li>
-            <li>
-              <FontAwesomeIcon className="mr-2" icon={faFileLines} />
-              Reports
-            </li>
-          </ul>
-        </nav>
-
+        <PrimaryNav/>
         <ul className="flex gap-7">
           <li>
             <FontAwesomeIcon className="header-icon-size" icon={faBell} />
