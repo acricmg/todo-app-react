@@ -1,17 +1,20 @@
+import axios from "axios";
 import { React, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import config from "../../config/config";
 
 import { faBars } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import axios from "axios";
-
-import config from "../../config/config";
+import AllIcon from "../assets/icons/all.svg?react";
+import HobbyIcon from "../assets/icons/hobby.svg?react";
+import PersonalIcon from "../assets/icons/personal.svg?react";
+import WorkIcon from "../assets/icons/work.svg?react";
 
 const Navbar = ({ state }) => {
   const [isOpen, setIsOpen] = useState(true);
   const today = new Date();
   const formattedDate = today.toLocaleDateString("en-US", {
-    weekday: "long",
+    weekday: "short",
     year: "numeric",
     month: "long",
     day: "numeric",
@@ -50,10 +53,30 @@ const Navbar = ({ state }) => {
       <nav className="p-6">
         <h3 className="font-semibold text-xl mb-3">Groups</h3>
         <ul>
-          <li className="font-bold mb-2">All</li>
-          <li className="mb-2">Personal</li>
-          <li className="mb-2">Work</li>
-          <li className="mb-2">Hobby</li>
+          <li className="font-bold mb-2">
+            <Link className="sidebar-icon">
+              <AllIcon className="h-4" fill="#4ADE80" />
+              All
+            </Link>
+          </li>
+          <li className="mb-2">
+            <Link className="sidebar-icon">
+              <PersonalIcon className="h-4" fill="none" stroke="currentColor"/>
+              Personal
+            </Link>
+          </li>
+          <li className="mb-2">
+            <Link className="sidebar-icon">
+              <WorkIcon className="h-4" fill="none" stroke="currentColor" />
+              Work
+            </Link>
+          </li>
+          <li className="mb-2">
+            <Link className="sidebar-icon">
+              <HobbyIcon className="h-4" fill="none" stroke="currentColor"/>
+              Hobby
+            </Link>
+          </li>
         </ul>
       </nav>
     </div>

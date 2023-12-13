@@ -53,3 +53,7 @@
 .circle-sm {
   @apply text-sm font-semibold w-6 h-6 rounded-full flex flex-center;
 }
+
+.sidebar-icon {
+  @apply flex items-center gap-2;
+}
