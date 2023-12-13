@@ -8,13 +8,13 @@ import { faCheckCircle, faCircle } from "@fortawesome/free-regular-svg-icons";
 import {
   faCirclePlus,
   faEye,
-  faFloppyDisk,
   faPen,
   faTrash,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import config from "../../config/config";
+import AddPrompt from "./AddPrompt";
 import EditPrompt from "./EditPrompt";
 import Notification from "./Notification";
 
@@ -81,26 +81,20 @@ const DraggableListItem = ({
         </div>
       </div>
       <p className="ml-7 text-slate-500">{task.description}</p>
-      {/* <p className="ml-7 text-slate-500">{task.status}</p> */}
     </li>
   );
 };
 
-const TaskList = ({ userId }) => {
+const TaskList = ({ userID }) => {
   // State to hold the fetched data
   const [taskData, setTaskData] = useState(null);
-  const [newTask, setNewTask] = useState({
-    status: "unfinished",
-    assignedTo: userId,
-    group: "",
-  });
   const [unfinishedTaskData, setUnfinishedTaskData] = useState(null);
-  const navigate = useNavigate();
   const [notification, setNotification] = useState(null);
   const [editPrompt, setEditPrompt] = useState(null);
-  const [AddPrompt, setAddPrompt] = useState(null);
+  const [addPrompt, setAddPrompt] = useState(null);
   const [editTaskSelected, setEditTaskSelected] = useState(null);
   const [notificationColor, setNotificationColor] = useState("");
+  const navigate = useNavigate();
 
   const [selection, setSelection] = useState({
     startDate: new Date(),
@@ -158,32 +152,11 @@ const TaskList = ({ userId }) => {
     setUnfinishedTaskData(updatedItems);
   };
 
-  const handleNewTaskChange = (e) => {
-    const name = e.target.name;
-    const value = e.target.value == "" ? task[name] : e.target.value;
-    setNewTask({
-      ...newTask,
-      [name]: value,
-    });
-  };
-
-  const createTask = async () => {
-    try {
-      const response = await axios.post(
-        `${config.backend.url}/api/task-c`,
-        newTask
-      );
-      fetchData();
-    } catch (error) {
-      console.error("Error updating data:", error);
-    }
-  };
-
   const fetchData = async () => {
     try {
       // Make a GET request to your backend API endpoint
       const response = await axios.get(
-        `${config.backend.url}/api/tasks/${userId}`
+        `${config.backend.url}/api/tasks/${userID}`
       );
 
       // Set the fetched data in state
@@ -224,6 +197,12 @@ const TaskList = ({ userId }) => {
 
   return (
     <div className="w-full p-7">
+      {addPrompt && (
+        <AddPrompt
+          userID={userID}
+          parentOnClose={handleAddPromptVisibility}
+        />
+      )}
       {editPrompt && (
         <EditPrompt
           task={editTaskSelected}
@@ -269,7 +248,7 @@ const TaskList = ({ userId }) => {
           </DndProvider>
           <div className="mt-7 flex border-t-2">
             <div className="flex gap-4">
-              <div className="mt-4 text-primary opacity-60 flex items-center relative cursor-pointer transition duration-300 ease-in-out transform hover:opacity-100">
+              <div className="mt-4 text-primary opacity-60 flex items-center relative cursor-pointer transition duration-300 ease-in-out transform hover:opacity-100" onClick={showAddPrompt}>
                 <FontAwesomeIcon icon={faCirclePlus} />
                 <p className="ml-3 font-medium">Add a new task</p>
               </div>
@@ -303,7 +282,6 @@ const TaskList = ({ userId }) => {
                     <p className="font-bold ml-3">{task.title}</p>
                   </div>
                   <p className="ml-7 text-slate-500">{task.description}</p>
-                  <p className="ml-7 text-slate-500">{task.status}</p>
                 </li>
               ))}
             </ul>
