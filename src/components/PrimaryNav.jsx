@@ -1,4 +1,5 @@
 import { React } from "react";
+import { Link } from "react-router-dom";
 
 import { faFileLines } from "@fortawesome/free-regular-svg-icons";
 import { faHouse } from "@fortawesome/free-solid-svg-icons";
@@ -10,12 +11,16 @@ const PrimaryNav = () => {
       <nav>
         <ul className="flex gap-7">
           <li className="font-bold">
-            <FontAwesomeIcon className="mr-2" icon={faHouse} />
-            Home
+            <Link to="/tasks">
+              <FontAwesomeIcon className="mr-2" icon={faHouse} />
+              Home
+            </Link>
           </li>
           <li>
-            <FontAwesomeIcon className="mr-2" icon={faFileLines} />
-            Reports
+            <Link to="#">
+              <FontAwesomeIcon className="mr-2" icon={faFileLines} />
+              Reports
+            </Link>
           </li>
         </ul>
       </nav>
