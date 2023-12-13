@@ -297,9 +297,9 @@ const TaskList = ({ userId }) => {
             <span>2</span>
           </div>
         </div>
-        {taskData && taskData["Finished"] !== undefined ? (
+        {taskData && taskData["finished"] !== undefined ? (
           <ul>
-            {taskData["Finished"].map((task) => (
+            {taskData["finished"].map((task) => (
               <li className="mb-5 text-left" key={task._id}>
                 <div className="flex items-center">
                   <FontAwesomeIcon
