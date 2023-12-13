@@ -54,6 +54,10 @@
   @apply text-sm font-semibold w-6 h-6 rounded-full flex flex-center;
 }
 
+.task-action-icon {
+  @apply items-center cursor-pointer hover:text-slate-700;
+}
+
 .sidebar-icon {
   @apply flex items-center gap-2;
 }

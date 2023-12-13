@@ -1,6 +1,7 @@
 import { faCheckCircle, faCircle } from "@fortawesome/free-regular-svg-icons";
 import {
   faCirclePlus,
+  faEye,
   faFloppyDisk,
   faPen,
   faTrash,
@@ -57,16 +58,23 @@ const DraggableListItem = ({
         />
         <div className="w-full ml-3 flex justify-between">
           <p className="font-bold">{task.title}</p>
-          <div className="text-slate-300 flex">
-            <div
+          <div className="text-slate-300 flex gap-4">
+            <FontAwesomeIcon
+              className="task-action-icon"
+              icon={faEye}
+              size="sm"
+            />
+            <FontAwesomeIcon
               onClick={() => showEditPrompt(task)}
-              className="mr-4 items-center cursor-pointer hover:text-slate-700"
-            >
-              <FontAwesomeIcon icon={faPen} size="sm" />
-            </div>
-            <div className="items-center cursor-pointer hover:text-slate-700">
-              <FontAwesomeIcon icon={faTrash} size="sm" />
-            </div>
+              className="task-action-icon"
+              icon={faPen}
+              size="sm"
+            />
+            <FontAwesomeIcon
+              className="task-action-icon"
+              icon={faTrash}
+              size="sm"
+            />
           </div>
         </div>
       </div>
@@ -152,11 +160,6 @@ const TaskList = ({ userId }) => {
     }
   };
 
-  // Effect to fetch data when the component mounts
-  useEffect(() => {
-    fetchData();
-  }, []); // Empty dependency array ensures the effect runs only once when the component mounts
-
   const fetchData = async () => {
     try {
       // Make a GET request to your backend API endpoint
@@ -195,9 +198,14 @@ const TaskList = ({ userId }) => {
     }
   };
 
+  // Effect to fetch data when the component mounts
+  useEffect(() => {
+    fetchData();
+  }, []); // Empty dependency array ensures the effect runs only once when the component mounts
+
   return (
     <div className="w-full p-7 flex justify-center gap-8">
-      {/* {editPrompt && (
+      {editPrompt && (
         <EditPrompt
           task={editTaskSelected}
           parentOnClose={handleEditPromptVisibility}
@@ -211,7 +219,7 @@ const TaskList = ({ userId }) => {
             onClose={closeNotification}
           />
         )}
-      </div> */}
+      </div>
       <div className="h-fit bg-white rounded-lg p-8 drop-shadow-md flex-1 ">
         <div className="flex items-center border-b-2 pb-4 mb-8">
           <h2 className="mr-3 text-3xl font-bold">Tasks</h2>
