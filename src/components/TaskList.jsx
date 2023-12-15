@@ -194,14 +194,10 @@ const TaskList = ({ userID }) => {
   useEffect(() => {
     fetchData();
   }, []); // Empty dependency array ensures the effect runs only once when the component mounts
-
   return (
     <div className="w-full p-7">
       {addPrompt && (
-        <AddPrompt
-          userID={userID}
-          parentOnClose={handleAddPromptVisibility}
-        />
+        <AddPrompt userID={userID} parentOnClose={handleAddPromptVisibility} />
       )}
       {editPrompt && (
         <EditPrompt
@@ -248,7 +244,10 @@ const TaskList = ({ userID }) => {
           </DndProvider>
           <div className="mt-7 flex border-t-2">
             <div className="flex gap-4">
-              <div className="mt-4 text-primary opacity-60 flex items-center relative cursor-pointer transition duration-300 ease-in-out transform hover:opacity-100" onClick={showAddPrompt}>
+              <div
+                className="mt-4 text-primary opacity-60 flex items-center relative cursor-pointer transition duration-300 ease-in-out transform hover:opacity-100"
+                onClick={showAddPrompt}
+              >
                 <FontAwesomeIcon icon={faCirclePlus} />
                 <p className="ml-3 font-medium">Add a new task</p>
               </div>

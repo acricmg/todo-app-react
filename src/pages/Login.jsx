@@ -1,13 +1,21 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 import config from "../../config/config";
 import LoginLayout from "../components/LoginLayout";
+import { useAuth } from "../contexts/authContext";
 
 const Login = () => {
+  const { user, login } = useAuth();
   const [input, setInput] = useState({});
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (user != null) {
+      navigate("/tasks", { replace: true });
+    }
+  }, []);
 
   const handleChange = (e) => {
     const name = e.target.name;
@@ -28,11 +36,12 @@ const Login = () => {
       };
 
       const response = await axios.post(
-        `${config.backend.url}/api/authorize`,
+        `${config.backend.url}/api/login`,
         formData
       );
 
       if (response.data) {
+        login(response.data.user);
         navigate("/tasks");
         setInput({});
       }

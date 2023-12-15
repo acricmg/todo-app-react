@@ -10,7 +10,7 @@ import HobbyIcon from "../assets/icons/hobby.svg?react";
 import PersonalIcon from "../assets/icons/personal.svg?react";
 import WorkIcon from "../assets/icons/work.svg?react";
 
-const Navbar = ({ state }) => {
+const Navbar = ({ state, user }) => {
   const [isOpen, setIsOpen] = useState(true);
   const today = new Date();
   const formattedDate = today.toLocaleDateString("en-US", {
@@ -40,7 +40,10 @@ const Navbar = ({ state }) => {
           <div className="p-6">
             <div className="mb-3 flex justify-between items-center">
               <h3 className="text-xl">
-                Hello <span className="font-semibold">user!</span>
+                Hello{" "}
+                <span className="font-semibold">
+                  {user.name.charAt(0).toUpperCase() + user.name.slice(1)}!
+                </span>
               </h3>
               <FontAwesomeIcon
                 className="cursor-pointer"

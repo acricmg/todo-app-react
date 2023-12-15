@@ -1,21 +1,30 @@
 import { React, useEffect, useState } from "react";
+import { useAuth } from "../contexts/authContext";
+import { useNavigate } from "react-router-dom";
 
 import Header from "./Header";
 import Navbar from "./Navbar";
 
 const Layout = ({ children }) => {
-  // const [isOpen, setIsOpen] = useState(true);
-  // const toggleNavbar = () => {
-  //   setIsOpen(!isOpen);
-  // };
+  const { user, login, logout } = useAuth();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (user === null) {
+      navigate("/", { replace: true });
+    }
+  }, []);
+
   return (
-    <>
-      <Header />
-      <div className="h-full lg:flex">
-        <Navbar />
-        {children}
-      </div>
-    </>
+    user && (
+      <>
+        <Header />
+        <div className="h-full lg:flex">
+          <Navbar user={user} />
+          {children}
+        </div>
+      </>
+    )
   );
 };
 
