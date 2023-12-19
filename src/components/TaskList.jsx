@@ -180,6 +180,7 @@ const TaskList = ({ userID }) => {
         `${config.backend.url}/api/task-u`,
         task
       );
+      console.log(response);
       showNotification(
         task.title + " has been updated to " + updatedStatus + " status",
         notifColor

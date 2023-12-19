@@ -41,7 +41,7 @@ const Login = () => {
       );
 
       if (response.data) {
-        login(response.data.user);
+        login(response.data.user, response.data.token);
         navigate("/tasks");
         setInput({});
       }

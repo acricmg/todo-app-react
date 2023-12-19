@@ -1,6 +1,7 @@
-import React, { createContext, useContext, useState } from "react";
+import React, { createContext, useContext, useEffect, useState } from "react";
 import axios from "axios";
 import config from "../../config/config";
+import axiosInstance from "../services/axiosInstance";
 
 const AuthContext = createContext();
 
@@ -10,10 +11,39 @@ const AuthProvider = ({ children }) => {
     return storedUser ? JSON.parse(storedUser) : null;
   });
 
-  const login = (userData) => {
+  const login = (userData, token) => {
     setUser(userData);
+    localStorage.setItem("authToken", JSON.stringify(token));
     localStorage.setItem("user", JSON.stringify(userData));
   };
+
+  useEffect(() => {
+    let isMounted = true;
+
+    const fetchData = async () => {
+      try {
+        const authToken = localStorage.getItem("authToken");
+        console.log(authToken);
+        // Check if token is still valid
+        if (authToken && isMounted) {
+          const response = await axiosInstance.get(
+            `${config.backend.url}/api/user`
+          );
+          setUser(response.data.user);
+        } else {
+          localStorage.setItem("user", "");
+        }
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+      }
+    };
+
+    fetchData();
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
 
   const logout = () => {
     setUser(null);

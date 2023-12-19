@@ -41,7 +41,7 @@ const Register = () => {
 
       if (formData.password === input.confirmPassword) {
         const response = await axios.post(
-          `${config.backend.url}/api/user-c`,
+          `${config.backend.url}/api/register`,
           formData
         );
         console.log("POST request successful:", response.data);
