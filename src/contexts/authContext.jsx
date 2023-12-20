@@ -29,12 +29,15 @@ const AuthProvider = ({ children }) => {
           const response = await axiosInstance.get(
             `${config.backend.url}/api/user`
           );
-          setUser(response.data.user);
-        } else {
-          localStorage.setItem("user", "");
+          if (response.data != "") {
+            setUser(response.data.user);
+          } else {
+            localStorage.setItem("user", "");
+          }
         }
       } catch (error) {
         console.error("Error fetching user data:", error);
+        localStorage.setItem("user", "");
       }
     };
 
