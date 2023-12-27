@@ -3,7 +3,7 @@ import { React, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import config from "../../config/config";
 
-import { faBars, faChevronRight } from "@fortawesome/free-solid-svg-icons";
+import { faBars } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import AllIcon from "../assets/icons/all.svg?react";
 import HobbyIcon from "../assets/icons/hobby.svg?react";
@@ -32,7 +32,7 @@ const Navbar = ({ state, user }) => {
   return (
     <>
       {isOpen && (
-        <div className={"bg-slate-600 text-sky-50 lg:w-1/6"}>
+        <div className={"bg-slate-600 text-sky-50 hidden lg:block lg:w-1/6"}>
           <div className="border-b-2 border-white">
             <div className="p-6">
               <div className="mb-3 flex justify-between items-center">

@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { faCheckCircle, faCircle } from "@fortawesome/free-regular-svg-icons";
 import {
   faCirclePlus,
+  faEllipsis,
   faEye,
   faPen,
   faTrash,
@@ -47,7 +48,7 @@ const DraggableListItem = ({
   return (
     <li
       ref={(node) => ref(drop(node))}
-      className="mb-5 cursor-grab list-none"
+      className="mb-5 text-sm sm:text-base cursor-grab list-none"
       key={task._id}
     >
       <div className="flex items-center">
@@ -60,7 +61,7 @@ const DraggableListItem = ({
         />
         <div className="w-full ml-3 flex justify-between">
           <p className="font-bold">{task.title}</p>
-          <div className="text-slate-300 flex gap-4">
+          <div className="text-slate-300 gap-4 hidden sm:flex">
             <FontAwesomeIcon
               className="task-action-icon"
               icon={faEye}
@@ -78,6 +79,10 @@ const DraggableListItem = ({
               size="sm"
             />
           </div>
+          <FontAwesomeIcon
+            className="text-slate-300 task-action-icon sm:hidden"
+            icon={faEllipsis}
+          />
         </div>
       </div>
       <p className="ml-7 text-slate-500">{task.description}</p>
@@ -213,10 +218,12 @@ const TaskList = ({ userID }) => {
           onClose={closeNotification}
         />
       )}
-      <div className="flex justify-center gap-8">
+      <div className="flex flex-col lg:flex-row justify-center gap-8">
         <div className="h-fit bg-white rounded-lg p-8 drop-shadow-md flex-1 ">
           <div className="flex items-center border-b-2 pb-4 mb-8">
-            <h2 className="mr-3 text-3xl font-bold">Tasks</h2>
+            <h2 className="mr-2 sm:mr-3 text-2xl sm:text-3xl font-bold">
+              Tasks
+            </h2>
             <div className="circle-sm bg-primary text-white">
               <span>5</span>
             </div>
@@ -226,6 +233,7 @@ const TaskList = ({ userID }) => {
               {unfinishedTaskData ? (
                 unfinishedTaskData.map((task, index) => (
                   <DraggableListItem
+                    key={index}
                     id={task._id}
                     task={task}
                     index={index}
@@ -249,8 +257,10 @@ const TaskList = ({ userID }) => {
                 className="mt-4 text-primary opacity-60 flex items-center relative cursor-pointer transition duration-300 ease-in-out transform hover:opacity-100"
                 onClick={showAddPrompt}
               >
-                <FontAwesomeIcon icon={faCirclePlus} />
-                <p className="ml-3 font-medium">Add a new task</p>
+                <FontAwesomeIcon className="h-3.5 sm:h-4" icon={faCirclePlus} />
+                <p className="ml-3 text-sm sm:text-base font-medium">
+                  Add a new task
+                </p>
               </div>
             </div>
           </div>
@@ -258,7 +268,9 @@ const TaskList = ({ userID }) => {
 
         <div className="h-fit bg-white rounded-lg p-8 drop-shadow-md flex-1">
           <div className="flex items-center border-b-2 pb-4 mb-8">
-            <h2 className="mr-3 text-3xl font-bold">Completed</h2>
+            <h2 className="mr-2 sm:mr-3 text-2xl sm:text-3xl font-bold">
+              Completed
+            </h2>
             <div className="circle-sm bg-success text-white">
               <span>2</span>
             </div>
@@ -266,7 +278,7 @@ const TaskList = ({ userID }) => {
           {taskData && taskData["finished"] !== undefined ? (
             <ul>
               {taskData["finished"].map((task) => (
-                <li className="mb-5 text-left" key={task._id}>
+                <li className="mb-5 text-sm sm:text-base" key={task._id}>
                   <div className="flex items-center">
                     <FontAwesomeIcon
                       icon={
