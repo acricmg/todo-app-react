@@ -1,9 +1,9 @@
-import React, { useState } from "react";
-import axios from "axios";
-import config from "../../config/config";
-import Draggable from "react-draggable";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import axios from "axios";
+import React, { useState } from "react";
+import Draggable from "react-draggable";
+import config from "../../config/config";
 
 const EditPrompt = ({ task, parentOnClose }) => {
   const nodeRef = React.useRef(null);
@@ -61,11 +61,11 @@ const EditPrompt = ({ task, parentOnClose }) => {
         >
           <div
             ref={nodeRef}
-            className="bg-white shadow-lg rounded-lg w-3/4 lg:w-2/5"
+            className="bg-gray-50 shadow-lg rounded-lg w-3/4 lg:w-2/5"
           >
             <div className="grid grid-cols-1">
               <div className="border-b p-4 flex draggable-handle">
-                <p className="font-bold">Draggable Edit Prompt</p>
+                <p className="font-bold">Edit Task</p>
                 <FontAwesomeIcon
                   className="ml-auto cursor-pointer items-center"
                   icon={faTimes}
@@ -140,13 +140,13 @@ const EditPrompt = ({ task, parentOnClose }) => {
               <div className="border-t p-4 flex">
                 <div className="ml-auto">
                   <button
-                    className="p-2 px-3 bg-gray-300 rounded-md"
+                    className="p-2 px-3 text-gray-400 border-2 border-gray-300 rounded-md"
                     onClick={handleClose}
                   >
                     Close
                   </button>
                   <button
-                    className="ml-2 p-2 px-3 bg-blue-200 rounded-md"
+                    className="ml-2 p-2 px-3 bg-primary text-white rounded-md"
                     onClick={updateData}
                   >
                     Save

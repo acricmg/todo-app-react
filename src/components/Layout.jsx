@@ -1,6 +1,8 @@
 import { React, useEffect, useState } from "react";
-import { useAuth } from "../contexts/authContext";
 import { useNavigate } from "react-router-dom";
+
+import { useAuth } from "../contexts/authContext";
+import { MobNavProvider } from "../contexts/mobNavContext";
 
 import Header from "./Header";
 import Navbar from "./Navbar";
@@ -18,7 +20,10 @@ const Layout = ({ children }) => {
   return (
     user && (
       <>
-        <Header user={user} logout={logout} />
+        <MobNavProvider>
+          <Header user={user} logout={logout}/>
+        </MobNavProvider>
+
         <div className="h-full lg:flex">
           <Navbar user={user} logout={logout} />
           <div>{children}</div>

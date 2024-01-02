@@ -1,10 +1,13 @@
 import { React, useState } from "react";
 
-import { faBell, faCircleUser } from "@fortawesome/free-regular-svg-icons";
-import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useMobNav } from "../contexts/mobNavContext";
 
+import MobileNavbar from "./MobileNavbar";
 import PrimaryNav from "./PrimaryNav";
+
+import { faBell, faCircleUser } from "@fortawesome/free-regular-svg-icons";
+import { faBars, faChevronDown } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const Header = ({ user, logout }) => {
   const [isDropdownOpen, setDropdownOpen] = useState(false);
@@ -12,15 +15,27 @@ const Header = ({ user, logout }) => {
   const handleDropdownToggle = () => {
     setDropdownOpen(!isDropdownOpen);
   };
+  const {toggleState } = useMobNav();
+
   return (
     <>
-      <header className="px-6 py-5 flex justify-between drop-shadow-sm bg-white text-primary text-xl ">
+      <MobileNavbar user={user} />
+      <header className="px-6 py-5 flex items-center drop-shadow-sm bg-white text-primary text-base sm:text-xl">
         <PrimaryNav />
-        <ul className="flex gap-7">
-          <li>
-            <FontAwesomeIcon className="header-icon-size" icon={faBell} />
-          </li>
-          <li className="relative">
+        <FontAwesomeIcon
+          className="header-icon-size cursor-pointer lg:hidden"
+          onClick={toggleState}
+          icon={faBars}
+        />
+        <div className="ml-auto">
+          <ul className="flex gap-5 sm:gap-7">
+            <li>
+              <FontAwesomeIcon
+                className="header-icon-size cursor-pointer"
+                icon={faBell}
+              />
+            </li>
+            <li className="relative">
             <div
               className="flex items-center cursor-pointer"
               onClick={handleDropdownToggle}
@@ -42,7 +57,8 @@ const Header = ({ user, logout }) => {
               </div>
             )}
           </li>
-        </ul>
+          </ul>
+        </div>
       </header>
     </>
   );

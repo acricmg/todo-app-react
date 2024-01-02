@@ -65,7 +65,7 @@ const AddPrompt = ({ userID, parentOnClose }) => {
         >
           <div
             ref={nodeRef}
-            className="bg-white shadow-lg rounded-lg w-3/4 lg:w-2/5"
+            className="bg-gray-50 shadow-lg rounded-lg w-3/4 lg:w-2/5"
           >
             <div className="grid grid-cols-1">
               <div className="border-b p-4 flex draggable-handle">
@@ -134,7 +134,7 @@ const AddPrompt = ({ userID, parentOnClose }) => {
                     Close
                   </button>
                   <button
-                    className="ml-2 p-2 px-3 bg-primary rounded-md text-white"
+                    className="ml-2 p-2 px-3 bg-primary text-white rounded-md"
                     onClick={createTask}
                   >
                     Save

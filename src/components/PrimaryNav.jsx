@@ -8,7 +8,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 const PrimaryNav = () => {
   return (
     <>
-      <nav>
+      <nav className="hidden lg:block">
         <ul className="flex gap-7">
           <li className="font-bold">
             <Link to="/tasks">
