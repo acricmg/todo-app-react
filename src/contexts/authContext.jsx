@@ -23,7 +23,6 @@ const AuthProvider = ({ children }) => {
     const fetchData = async () => {
       try {
         const authToken = localStorage.getItem("authToken");
-        console.log(authToken);
         // Check if token is still valid
         if (authToken && isMounted) {
           const response = await axiosInstance.get(
@@ -49,7 +48,10 @@ const AuthProvider = ({ children }) => {
   }, []);
 
   const logout = () => {
+    localStorage.setItem("authToken", "");
+    localStorage.setItem("user", "");
     setUser(null);
+    location.reload();
   };
 
   return (

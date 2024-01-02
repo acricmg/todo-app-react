@@ -17,7 +17,7 @@ const PrimaryNav = () => {
             </Link>
           </li>
           <li>
-            <Link to="#">
+            <Link to="/reports">
               <FontAwesomeIcon className="mr-2" icon={faFileLines} />
               Reports
             </Link>

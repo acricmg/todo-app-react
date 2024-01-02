@@ -18,10 +18,10 @@ const Layout = ({ children }) => {
   return (
     user && (
       <>
-        <Header />
+        <Header user={user} logout={logout} />
         <div className="h-full lg:flex">
-          <Navbar user={user} />
-          {children}
+          <Navbar user={user} logout={logout} />
+          <div>{children}</div>
         </div>
       </>
     )
