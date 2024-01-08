@@ -9,6 +9,7 @@ import { useAuth } from "../contexts/authContext";
 const Login = () => {
   const { user, login } = useAuth();
   const [input, setInput] = useState({});
+  const [error, setError] = useState("");
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -47,6 +48,7 @@ const Login = () => {
       }
     } catch (error) {
       console.error("POST request failed:", error);
+      setError("Invalid Credentials");
     }
   };
 
@@ -62,7 +64,7 @@ const Login = () => {
           </Link>
         </p>
       </div>
-      <form className="my-4 flex flex-col" onSubmit={handleSubmit}>
+      <form className="mt-4 flex flex-col" onSubmit={handleSubmit}>
         <label className="field-label" htmlFor="username">
           Username
         </label>
@@ -89,6 +91,11 @@ const Login = () => {
           onChange={(e) => handleChange(e)}
           required
         />
+        {error && (
+          <div className="pb-3 text-center text-[#e60000]">
+            <p>{error}</p>
+          </div>
+        )}
         <button className="field-rounded btn-primary" type="submit">
           Log in
         </button>
