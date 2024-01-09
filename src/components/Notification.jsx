@@ -20,7 +20,7 @@ const Notification = ({ message, onClose, color }) => {
     >
       <div
         style={{ backgroundColor: color }}
-        className="text-white px-4 py-2 rounded-lg shadow-lg"
+        className="text-white text-center px-4 py-2 rounded-lg shadow-lg"
       >
         {message}
       </div>

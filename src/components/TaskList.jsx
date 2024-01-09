@@ -1,4 +1,4 @@
-import axios from "axios";
+import axiosInstance from "../services/axiosInstance";
 import { useEffect, useState } from "react";
 import { DndProvider, useDrag, useDrop } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
@@ -22,42 +22,14 @@ import Notification from "./Notification";
 const ItemType = "LIST_ITEM";
 
 // Component for task list item
-const DraggableListItem = ({
-  id,
-  task,
-  index,
-  moveItem,
-  handleCircleClick,
-  showEditPrompt,
-}) => {
-  const [, ref] = useDrag({
-    type: ItemType,
-    item: { id, index },
-  });
-
-  const [, drop] = useDrop({
-    accept: ItemType,
-    hover: (draggedItem) => {
-      if (draggedItem.index !== index) {
-        moveItem(draggedItem.index, index);
-        draggedItem.index = index;
-      }
-    },
-  });
-
+const DraggableListItem = ({ task, handleCircleClick, showEditPrompt }) => {
   return (
-    <li
-      ref={(node) => ref(drop(node))}
-      className="mb-5 text-sm sm:text-base cursor-grab list-none"
-      key={task._id}
-    >
+    <li className="mb-5 text-sm sm:text-base list-none" key={task._id}>
       <div className="flex items-center">
         <FontAwesomeIcon
           className="text-slate-500 cursor-pointer transition duration-300 ease-in-out transform hover:opacity-100 opacity-50"
           onClick={() => handleCircleClick(task, "Finished", "#00b300")}
-          icon={
-            task.status.toLowerCase() == "finished" ? faCheckCircle : faCircle
-          }
+          icon={faCircle}
         />
         <div className="w-full ml-3 flex justify-between">
           <p className="font-bold">{task.title}</p>
@@ -160,7 +132,7 @@ const TaskList = ({ userID }) => {
   const fetchData = async () => {
     try {
       // Make a GET request to your backend API endpoint
-      const response = await axios.get(
+      const response = await axiosInstance.get(
         `${config.backend.url}/api/tasks/${userID}`
       );
 
@@ -181,7 +153,7 @@ const TaskList = ({ userID }) => {
   const handleCircleClick = async (task, updatedStatus, notifColor) => {
     try {
       task.status = updatedStatus;
-      const response = await axios.post(
+      const response = await axiosInstance.post(
         `${config.backend.url}/api/task-u`,
         task
       );
@@ -192,6 +164,7 @@ const TaskList = ({ userID }) => {
       );
       fetchData();
     } catch (error) {
+      showNotification("An error occured. Please try again later", "#b30000");
       console.error("Error fetching data:", error);
     }
   };
@@ -219,38 +192,40 @@ const TaskList = ({ userID }) => {
         />
       )}
       <div className="flex flex-col lg:flex-row justify-center gap-8">
-        <div className="h-fit bg-white rounded-lg p-8 drop-shadow-md flex-1 ">
+        <div className="h-fit bg-white rounded-lg p-8 border flex-1 ">
           <div className="flex items-center border-b-2 pb-4 mb-8">
             <h2 className="mr-2 sm:mr-3 text-2xl sm:text-3xl font-bold">
               Tasks
             </h2>
             <div className="circle-sm bg-primary text-white">
-              <span>5</span>
+              <span>
+                {unfinishedTaskData && unfinishedTaskData !== undefined
+                  ? unfinishedTaskData.length
+                  : 0}
+              </span>
             </div>
           </div>
-          <DndProvider backend={HTML5Backend}>
-            <div>
-              {unfinishedTaskData ? (
-                unfinishedTaskData.map((task, index) => (
-                  <DraggableListItem
-                    key={index}
-                    id={task._id}
-                    task={task}
-                    index={index}
-                    moveItem={moveItem}
-                    handleCircleClick={handleCircleClick}
-                    showEditPrompt={showEditPrompt}
-                  />
-                ))
-              ) : taskData && !Object.keys(taskData).includes("unfinished") ? (
-                <div>
-                  <p>No tasks. Good Job! 🥳</p>
-                </div>
-              ) : (
-                <p>Loading...</p>
-              )}
-            </div>
-          </DndProvider>
+          <div>
+            {unfinishedTaskData ? (
+              unfinishedTaskData.map((task, index) => (
+                <DraggableListItem
+                  key={index}
+                  id={task._id}
+                  task={task}
+                  index={index}
+                  moveItem={moveItem}
+                  handleCircleClick={handleCircleClick}
+                  showEditPrompt={showEditPrompt}
+                />
+              ))
+            ) : taskData && !Object.keys(taskData).includes("unfinished") ? (
+              <div>
+                <p>No tasks. Good Job! 🥳</p>
+              </div>
+            ) : (
+              <p>Loading...</p>
+            )}
+          </div>
           <div className="mt-7 flex border-t-2">
             <div className="flex gap-4">
               <div
@@ -266,13 +241,17 @@ const TaskList = ({ userID }) => {
           </div>
         </div>
 
-        <div className="h-fit bg-white rounded-lg p-8 drop-shadow-md flex-1">
+        <div className="h-fit bg-white rounded-lg p-8 border flex-1">
           <div className="flex items-center border-b-2 pb-4 mb-8">
             <h2 className="mr-2 sm:mr-3 text-2xl sm:text-3xl font-bold">
               Completed
             </h2>
             <div className="circle-sm bg-success text-white">
-              <span>2</span>
+              <span>
+                {taskData && taskData["finished"] !== undefined
+                  ? taskData["finished"].length
+                  : 0}
+              </span>
             </div>
           </div>
           {taskData && taskData["finished"] !== undefined ? (
@@ -281,11 +260,7 @@ const TaskList = ({ userID }) => {
                 <li className="mb-5 text-sm sm:text-base" key={task._id}>
                   <div className="flex items-center">
                     <FontAwesomeIcon
-                      icon={
-                        task.status.toLowerCase() == "finished"
-                          ? faCheckCircle
-                          : faCircle
-                      }
+                      icon={faCheckCircle}
                       onClick={() =>
                         handleCircleClick(task, "unfinished", "#b30000")
                       }

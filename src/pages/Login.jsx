@@ -69,7 +69,7 @@ const Login = () => {
           Username
         </label>
         <input
-          className="field"
+          className="field focus:border-blue-300"
           type="text"
           name="username"
           id="username"
@@ -82,7 +82,7 @@ const Login = () => {
           Password
         </label>
         <input
-          className="field"
+          className="field focus:border-blue-300"
           type="password"
           name="password"
           id="password"
@@ -92,7 +92,7 @@ const Login = () => {
           required
         />
         {error && (
-          <div className="pb-3 text-center text-[#e60000]">
+          <div className="pb-3 text-center text-[#e60000] text-sm">
             <p>{error}</p>
           </div>
         )}
@@ -100,7 +100,7 @@ const Login = () => {
           Log in
         </button>
       </form>
-      <span className="text-sm text-center link">Forgot Password?</span>
+      <span className="text-sm text-center link mt-3">Forgot Password?</span>
     </LoginLayout>
   );
 };
