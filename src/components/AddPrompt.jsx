@@ -1,4 +1,4 @@
-import axios from "axios";
+import axiosInstance from "../services/axiosInstance";
 import React, { useState } from "react";
 import Draggable from "react-draggable";
 import config from "../../config/config";
@@ -43,7 +43,7 @@ const AddPrompt = ({ userID, parentOnClose }) => {
 
   const createTask = async () => {
     try {
-      const response = await axios.post(
+      const response = await axiosInstance.post(
         `${config.backend.url}/api/task-c`,
         newTask
       );

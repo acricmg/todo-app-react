@@ -11,6 +11,7 @@ import {
   faEye,
   faPen,
   faTrash,
+  faTimes,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
@@ -22,7 +23,12 @@ import Notification from "./Notification";
 const ItemType = "LIST_ITEM";
 
 // Component for task list item
-const DraggableListItem = ({ task, handleCircleClick, showEditPrompt }) => {
+const DraggableListItem = ({
+  task,
+  handleCircleClick,
+  showEditPrompt,
+  showDeletePrompt,
+}) => {
   return (
     <li className="mb-5 text-sm sm:text-base list-none" key={task._id}>
       <div className="flex items-center">
@@ -46,6 +52,7 @@ const DraggableListItem = ({ task, handleCircleClick, showEditPrompt }) => {
               size="sm"
             />
             <FontAwesomeIcon
+              onClick={() => showDeletePrompt(task)}
               className="task-action-icon"
               icon={faTrash}
               size="sm"
@@ -62,14 +69,72 @@ const DraggableListItem = ({ task, handleCircleClick, showEditPrompt }) => {
   );
 };
 
+const DeletePrompt = ({ task, parentOnClose, showNotification }) => {
+  const handleClose = () => {
+    parentOnClose(true, false, false);
+  };
+
+  const deleteTask = async (task, notifColor) => {
+    try {
+      const response = await axiosInstance.post(
+        `${config.backend.url}/api/task-d`,
+        task
+      );
+      console.log(response);
+      showNotification('"' + task.title + '" has been deleted.', notifColor);
+      handleClose();
+    } catch (error) {
+      showNotification("An error occured. Please try again later", "#b30000");
+      console.error("Error fetching data:", error);
+    }
+  };
+  return (
+    <div className="absolute w-full h-full left-0 right-0 top-0 bottom-0 z-30">
+      <div className="flex items-center justify-center h-screen">
+        <div className="bg-gray-50 shadow-lg rounded-lg w-3/4 lg:w-2/5">
+          <div className="grid grid-cols-1">
+            <div className="border-b p-4 flex draggable-handle">
+              <p className="font-bold">Task Name: {task.title}</p>
+              <FontAwesomeIcon
+                className="ml-auto cursor-pointer items-center"
+                icon={faTimes}
+                onClick={handleClose}
+              />
+            </div>
+            <div className="p-4">Are you sure?</div>
+            <div className="border-t p-4 flex">
+              <div className="ml-auto">
+                <button
+                  className="p-2 px-3 text-gray-400 border-2 border-gray-300 rounded-md"
+                  onClick={handleClose}
+                >
+                  No
+                </button>
+                <button
+                  className="ml-2 p-2 px-3 bg-primary text-white rounded-md"
+                  onClick={() => deleteTask(task, "#00b300")}
+                >
+                  Yes
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 const TaskList = ({ userID }) => {
   // State to hold the fetched data
   const [taskData, setTaskData] = useState(null);
   const [unfinishedTaskData, setUnfinishedTaskData] = useState(null);
   const [notification, setNotification] = useState(null);
   const [editPrompt, setEditPrompt] = useState(null);
+  const [deletePrompt, setDeletePrompt] = useState(null);
   const [addPrompt, setAddPrompt] = useState(null);
   const [editTaskSelected, setEditTaskSelected] = useState(null);
+  const [taskSelected, setTaskSelected] = useState(null);
   const [notificationColor, setNotificationColor] = useState("");
   const navigate = useNavigate();
 
@@ -111,6 +176,23 @@ const TaskList = ({ userID }) => {
       }
     }
     fetchData();
+  };
+
+  const handleDeletePromptVisibility = (closed, alert, success) => {
+    setDeletePrompt(closed ? null : true);
+    if (alert) {
+      if (success) {
+        showNotification("Task created", "#00b300");
+      } else {
+        showNotification("Task not created", "#b30000");
+      }
+    }
+    fetchData();
+  };
+
+  const showDeletePrompt = (task) => {
+    setTaskSelected(task);
+    handleDeletePromptVisibility(false);
   };
 
   const showEditPrompt = (task) => {
@@ -159,9 +241,24 @@ const TaskList = ({ userID }) => {
       );
       console.log(response);
       showNotification(
-        task.title + " has been updated to " + updatedStatus + " status",
+        '"' + task.title + '" has been updated to ' + updatedStatus + " status",
         notifColor
       );
+      fetchData();
+    } catch (error) {
+      showNotification("An error occured. Please try again later", "#b30000");
+      console.error("Error fetching data:", error);
+    }
+  };
+
+  const handleDeleteClick = async (task, notifColor) => {
+    try {
+      const response = await axiosInstance.post(
+        `${config.backend.url}/api/task-d`,
+        task
+      );
+      console.log(response);
+      showNotification('"' + task.title + '" has been deleted.', notifColor);
       fetchData();
     } catch (error) {
       showNotification("An error occured. Please try again later", "#b30000");
@@ -182,6 +279,13 @@ const TaskList = ({ userID }) => {
         <EditPrompt
           task={editTaskSelected}
           parentOnClose={handleEditPromptVisibility}
+        />
+      )}
+      {deletePrompt && (
+        <DeletePrompt
+          task={taskSelected}
+          parentOnClose={handleDeletePromptVisibility}
+          showNotification={showNotification}
         />
       )}
       {notification && (
@@ -216,6 +320,7 @@ const TaskList = ({ userID }) => {
                   moveItem={moveItem}
                   handleCircleClick={handleCircleClick}
                   showEditPrompt={showEditPrompt}
+                  showDeletePrompt={showDeletePrompt}
                 />
               ))
             ) : taskData && !Object.keys(taskData).includes("unfinished") ? (

@@ -1,6 +1,6 @@
+import axiosInstance from "../services/axiosInstance";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import axios from "axios";
 import React, { useState } from "react";
 import Draggable from "react-draggable";
 import config from "../../config/config";
@@ -31,7 +31,7 @@ const EditPrompt = ({ task, parentOnClose }) => {
 
   const updateData = async () => {
     try {
-      const response = await axios.post(
+      const response = await axiosInstance.post(
         `${config.backend.url}/api/task-u`,
         updatedData
       );
