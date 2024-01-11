@@ -42,11 +42,10 @@ const EditPrompt = ({ task, parentOnClose }) => {
     }
   };
 
-  const bounds = {
-    left: 0,
-    right: window.innerWidth,
-    top: 0,
-    bottom: parent.innerHeight,
+  const [isOn, setIsOn] = useState(false);
+
+  const toggleSwitch = () => {
+    setIsOn(!isOn);
   };
 
   return (
@@ -104,22 +103,33 @@ const EditPrompt = ({ task, parentOnClose }) => {
                     placeholder={task.description}
                   />
                 </div>
-                <div className="mb-4">
-                  <label
-                    className="block text-gray-700 text-sm font-bold mb-2"
-                    htmlFor="status"
-                  >
-                    Status
-                  </label>
-                  <input
-                    type="text"
+                <label
+                  className="block text-gray-700 text-sm font-bold mb-2"
+                  htmlFor="status"
+                >
+                  Status
+                </label>
+                <div className="relative inline-block w-full mb-4">
+                  <select
                     id="status"
                     name="status"
-                    className="bg-white border rounded w-full py-2 px-3"
+                    className="appearance-none bg-white border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
                     onChange={handleChange}
-                    placeholder={task.status}
-                  />
+                  >
+                    <option value="unfinished">Unfinished</option>
+                    <option value="finished">Completed</option>
+                  </select>
+                  <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-400">
+                    <svg
+                      className="fill-current h-4 w-4"
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 20 20"
+                    >
+                      <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
+                    </svg>
+                  </div>
                 </div>
+
                 <div className="mb-4">
                   <label
                     className="block text-gray-700 text-sm font-bold mb-2"

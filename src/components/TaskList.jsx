@@ -29,6 +29,12 @@ const DraggableListItem = ({
   showEditPrompt,
   showDeletePrompt,
 }) => {
+  const [contextMenuVis, setContextMenuVis] = useState(false);
+
+  const handleToggle = () => {
+    setContextMenuVis(!contextMenuVis);
+  };
+
   return (
     <li className="mb-5 text-sm sm:text-base list-none" key={task._id}>
       <div className="flex items-center">
@@ -58,10 +64,45 @@ const DraggableListItem = ({
               size="sm"
             />
           </div>
-          <FontAwesomeIcon
-            className="text-slate-300 task-action-icon sm:hidden"
-            icon={faEllipsis}
-          />
+          <div className="sm:hidden relative">
+            <FontAwesomeIcon
+              onClick={() => handleToggle()}
+              className="text-slate-300 task-action-icon"
+              icon={faEllipsis}
+            />
+            {contextMenuVis && (
+              <div className="absolute bg-white border p-3 z-10 right-1 rounded-md shadow-sm">
+                <div
+                  className="hover:bg-gray-100 flex items-center cursor-pointer"
+                  onClick={() => {
+                    showEditPrompt(task);
+                    handleToggle();
+                  }}
+                >
+                  <FontAwesomeIcon
+                    className="task-action-icon mr-1"
+                    icon={faPen}
+                    size="sm"
+                  />
+                  <p>Edit</p>
+                </div>
+                <div
+                  className="hover:bg-gray-100 flex items-center cursor-pointer"
+                  onClick={() => {
+                    showDeletePrompt(task);
+                    handleToggle();
+                  }}
+                >
+                  <FontAwesomeIcon
+                    className="task-action-icon mr-1"
+                    icon={faTrash}
+                    size="sm"
+                  />
+                  <p>Delete</p>
+                </div>
+              </div>
+            )}
+          </div>
         </div>
       </div>
       <p className="ml-7 text-slate-500">{task.description}</p>
@@ -94,14 +135,16 @@ const DeletePrompt = ({ task, parentOnClose, showNotification }) => {
         <div className="bg-gray-50 shadow-lg rounded-lg w-3/4 lg:w-2/5">
           <div className="grid grid-cols-1">
             <div className="border-b p-4 flex draggable-handle">
-              <p className="font-bold">Task Name: {task.title}</p>
+              <p className="font-bold">Delete Task</p>
               <FontAwesomeIcon
                 className="ml-auto cursor-pointer items-center"
                 icon={faTimes}
                 onClick={handleClose}
               />
             </div>
-            <div className="p-4">Are you sure?</div>
+            <div className="p-4">
+              Are you sure you want to delete "{task.title}"?
+            </div>
             <div className="border-t p-4 flex">
               <div className="ml-auto">
                 <button
@@ -111,7 +154,7 @@ const DeletePrompt = ({ task, parentOnClose, showNotification }) => {
                   No
                 </button>
                 <button
-                  className="ml-2 p-2 px-3 bg-primary text-white rounded-md"
+                  className="ml-2 p-2 px-3 bg-red-600 text-white rounded-md"
                   onClick={() => deleteTask(task, "#00b300")}
                 >
                   Yes
@@ -244,21 +287,6 @@ const TaskList = ({ userID }) => {
         '"' + task.title + '" has been updated to ' + updatedStatus + " status",
         notifColor
       );
-      fetchData();
-    } catch (error) {
-      showNotification("An error occured. Please try again later", "#b30000");
-      console.error("Error fetching data:", error);
-    }
-  };
-
-  const handleDeleteClick = async (task, notifColor) => {
-    try {
-      const response = await axiosInstance.post(
-        `${config.backend.url}/api/task-d`,
-        task
-      );
-      console.log(response);
-      showNotification('"' + task.title + '" has been deleted.', notifColor);
       fetchData();
     } catch (error) {
       showNotification("An error occured. Please try again later", "#b30000");
