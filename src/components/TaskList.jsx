@@ -19,6 +19,7 @@ import config from "../../config/config";
 import AddPrompt from "./AddPrompt";
 import EditPrompt from "./EditPrompt";
 import Notification from "./Notification";
+import ViewPrompt from "./ViewPrompt";
 
 const ItemType = "LIST_ITEM";
 
@@ -28,6 +29,7 @@ const DraggableListItem = ({
   handleCircleClick,
   showEditPrompt,
   showDeletePrompt,
+  showViewPrompt,
 }) => {
   const [contextMenuVis, setContextMenuVis] = useState(false);
 
@@ -47,6 +49,7 @@ const DraggableListItem = ({
           <p className="font-bold">{task.title}</p>
           <div className="text-slate-300 gap-4 hidden sm:flex">
             <FontAwesomeIcon
+              onClick={() => showViewPrompt(task)}
               className="task-action-icon"
               icon={faEye}
               size="sm"
@@ -174,6 +177,7 @@ const TaskList = ({ userID }) => {
   const [unfinishedTaskData, setUnfinishedTaskData] = useState(null);
   const [notification, setNotification] = useState(null);
   const [editPrompt, setEditPrompt] = useState(null);
+  const [viewPrompt, setViewPrompt] = useState(null);
   const [deletePrompt, setDeletePrompt] = useState(null);
   const [addPrompt, setAddPrompt] = useState(null);
   const [editTaskSelected, setEditTaskSelected] = useState(null);
@@ -209,6 +213,10 @@ const TaskList = ({ userID }) => {
     fetchData();
   };
 
+  const handleViewPromptVisibility = (closed) => {
+    setViewPrompt(closed ? null : true);
+  };
+
   const handleAddPromptVisibility = (closed, alert, success) => {
     setAddPrompt(closed ? null : true);
     if (alert) {
@@ -241,6 +249,11 @@ const TaskList = ({ userID }) => {
   const showEditPrompt = (task) => {
     setEditTaskSelected(task);
     handleEditPromptVisibility(false);
+  };
+
+  const showViewPrompt = (task) => {
+    setTaskSelected(task);
+    handleViewPromptVisibility(false);
   };
 
   const showAddPrompt = () => {
@@ -309,6 +322,12 @@ const TaskList = ({ userID }) => {
           parentOnClose={handleEditPromptVisibility}
         />
       )}
+      {viewPrompt && (
+        <ViewPrompt
+          task={taskSelected}
+          parentOnClose={handleViewPromptVisibility}
+        />
+      )}
       {deletePrompt && (
         <DeletePrompt
           task={taskSelected}
@@ -349,6 +368,7 @@ const TaskList = ({ userID }) => {
                   handleCircleClick={handleCircleClick}
                   showEditPrompt={showEditPrompt}
                   showDeletePrompt={showDeletePrompt}
+                  showViewPrompt={showViewPrompt}
                 />
               ))
             ) : taskData && !Object.keys(taskData).includes("unfinished") ? (
